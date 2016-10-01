@@ -1,0 +1,91 @@
+.qatdatabase-item {
+	background: #FAFAFA;
+	border: 1px solid #ABA9A9;
+	margin: 3px !important;
+	border-radius: 4px;
+}
+
+.qatdatabase-item-content {
+	text-align: justify;
+	margin: 0px;
+	padding: 3px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+.qatdatabase-item-top {
+	border-bottom: 1px dotted #ABA9A9;
+	padding: 2px 3px !important;
+	background: #EFEFEF;
+	border-top-right-radius: 4px !important;
+	border-top-left-radius: 4px !important;
+}
+
+.qatdatabase-item-top>h2>a, .qatdatabase-item-top>h2 {
+	font-size: 14px;
+	margin: 0px !important;
+	overflow: hidden;
+}
+
+.qatdatabase-share-icons {
+	width: 108px;
+}
+
+.qatdatabase-share-icons>a {
+	margin: 0px 2px 0px 0px;
+}
+
+.qatdatabase-share-icons>a:last-child, .qatdatabase-share-icons>a:first-child {
+	margin: 0px 2px 0px 0px;
+}
+
+label.qatdatabase-label {
+	display: inline-block;
+	cursor: pointer;
+}
+
+label.qatdatabase-label.text {
+	cursor: text;
+}
+
+div.qatdatabase-field {
+	display: block;
+}
+
+.qatdatabase-field>.qatdatabase-checkbox-group>.qatdatabase-checkbox-item>label, div.control-group.inline>label {
+	margin-right: 8px;
+}
+
+.qatdatabase-field>.qatdatabase-checkbox-group>.qatdatabase-checkbox-item>input, .qatdatabase-field>input[type="checkbox"] {
+	margin: 0px;
+}
+
+.qatdatabase-field.inline {
+	display: inline-block;
+}
+
+.qatdatabase-field>span.currency {
+	font-size: 25px;
+	margin-left: 7px;
+}
+
+.radio-item-label>input[type="radio"] {
+	margin: 0px;
+}
+
+label.qatdatabase-label>span.qatdatabase-field-desc {
+	padding: 0px 7px;
+	background: #3F9DFF;
+	font-weight: bold;
+	font-size: 16px;
+	color: #FFFFFF;
+	border-radius: 50%;
+	vertical-align: middle;
+	cursor: pointer;
+	box-shadow: 0px 0px 1px 0px #000000;
+}
+
+.qatdatabase-required-star {
+	color: #FF0000;
+	font-weight: bold;
+}

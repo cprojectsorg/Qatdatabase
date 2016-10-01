@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset
+		name="general"
+		label="COM_QATDATABASE_CONFIGURATION_TABS_GENERAL"
+		description="COM_QATDATABASE_CONFIGURATION_TABS_GENERAL_DESC">
+		
+		<field
+			name="adminname"
+			type="text"
+			label="COM_QATDATABASE_CONFIGURATION_GENERAL_ADMIN_NAME"
+			description="COM_QATDATABASE_CONFIGURATION_GENERAL_ADMIN_NAME"
+			default="admin"
+		/>
+		
+		<field
+			name="adminemail"
+			type="text"
+			label="COM_QATDATABASE_CONFIGURATION_GENERAL_ADMIN_EMAIL"
+			description="COM_QATDATABASE_CONFIGURATION_GENERAL_ADMIN_EMAIL_DESC"
+		/>
+		
+		<field
+			name="show_share_icons"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="COM_QATDATABASE_CONFIGURATION_GENERAL_DISPLAY_SHARE_ICONS"
+			description="COM_QATDATABASE_CONFIGURATION_GENERAL_DISPLAY_SHARE_ICONS_DESC"
+			default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field
+			name="show_favorites_icon"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="COM_QATDATABASE_CONFIGURATION_GENERAL_DISPLAY_SHARE_FAVOURITE_ICON"
+			description="COM_QATDATABASE_CONFIGURATION_GENERAL_DISPLAY_SHARE_FAVOURITE_ICON"
+			default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+	</fieldset>
+</config>

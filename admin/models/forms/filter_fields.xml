@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="COM_BANNERS_SEARCH_IN_TITLE"
+			hint="JSEARCH_FILTER"
+			class="js-stools-search-string"
+		/>
+		
+		<field
+			name="published"
+			type="status"
+			label="JOPTION_SELECT_PUBLISHED"
+			statuses="0,1"
+			description="JOPTION_SELECT_PUBLISHED_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+		
+		<field
+			name="catid"
+			type="category"
+			label="JOPTION_FILTER_CATEGORY"
+			extension="com_qatdatabase"
+			description="JOPTION_FILTER_CATEGORY_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_CATEGORY</option>
+		</field>
+		
+		<field
+			name="type"
+			type="list"
+			label="COM_QATDATABASE_FIELD_TYPE"
+			description="COM_QATDATABASE_FIELD_TYPE_DESC"
+			onchange="this.form.submit();"
+		>
+			<option value="">COM_QATDATABASE_FIELD_FILTER_TYPE</option>
+			<option value="1">Check Box (Multiple)</option>
+			<option value="2">Check Box (Single)</option>
+			<option value="3">Date</option>
+			<option value="4">Drop Down (Multiple Selection)</option>
+			<option value="5">Drop Down (Single Selection)</option>
+			<option value="6">Email address</option>
+			<option value="7">Number text</option>
+			<option value="8">Price field</option>
+			<option value="9">Text area or editor</option>
+			<option value="10">Text Field</option>
+			<option value="11">URL (Link)</option>
+			<option value="12">Radio</option>
+			<option value="13">File</option>
+		</field>
+		
+	</fields>
+	
+	<fields name="list">
+		<field
+			name="limit"
+			type="limitbox"
+			class="input-mini"
+			default="20"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="component" version="3.0" method="upgrade">
+	<name>COM_QATDATABASE</name>
+	<creationDate>February 2015</creationDate>
+	<author>cprojects.org</author>
+	<authorEmail>joomla@cprojects.org</authorEmail>
+	<authorUrl>http://cprojects.org/</authorUrl>
+	<license>General Public License version 3 or later; see LICENSE.txt</license>
+	<version>0.1</version>
+	<description>COM_QATDATABASE_DESC</description>
+	
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
+	
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>qatdatabase.php</filename>
+		<filename>controller.php</filename>
+		<filename>router.php</filename>
+		<folder>views</folder>
+		<folder>helpers</folder>
+		<folder>models</folder>
+		<folder>css</folder>
+	</files>
+	
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB/en-GB.com_qatdatabase.ini</language>
+	</languages>
+	
+	<administration>
+		<menu link="option=com_qatdatabase">COM_QATDATABASE</menu>
+		<submenu>
+			<menu link="option=com_qatdatabase&amp;view=items">COM_QATDATABASE_ITEMS</menu>
+			<menu link="option=com_qatdatabase&amp;view=fields">COM_QATDATABASE_FIELDS</menu>
+			<menu link="option=com_qatdatabase&amp;view=layout">COM_QATDATABASE_LAYOUT_CONTROL</menu>
+			<menu link="option=com_categories&amp;extension=com_qatdatabase">COM_QATDATABASE_ITEMS_CATEGORIES</menu>
+		</submenu>
+		<files folder="admin">
+			<filename>index.html</filename>
+			<filename>qatdatabase.php</filename>
+			<filename>controller.php</filename>
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>LICENSE.txt</filename>
+			<folder>js</folder>
+			<folder>sql</folder>
+			<folder>css</folder>
+			<folder>tables</folder>
+			<folder>models</folder>
+			<folder>views</folder>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/en-GB.com_qatdatabase.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.com_qatdatabase.sys.ini</language>
+		</languages>
+	</administration>
+	
+	<media destination="com_qatdatabase" folder="media">
+		<filename>index.html</filename>
+		<folder>images</folder>
+	</media>
+</extension>
