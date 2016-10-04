@@ -24,7 +24,7 @@ defined('_JEXEC') or die ('Restricted access');
 			$Details .= '<span title="' . $DetailsArray[$field->required . '-required-name'] . '" class="hasTooltip small icon-' . $DetailsArray[$field->required . '-required-class'] . '"></span>';
 			$Details .= '<span title="' . $DetailsArray[$field->published . '-status-name'] . '" class="hasTooltip small icon-' . $DetailsArray[$field->published . '-status-class'] . '"></span>';
 			
-			echo '<div class="ordering-item"><div class="ordering-layout-item-icons">' . $Details . '</div><span>' . $field->name . '</span></div>';
+			echo '<div class="ordering-item"><div class="ordering-layout-item-icons">' . $Details . '</div><span>' . $field->title . ' <span class="small">(' . $field->name . ')</span></span></div>';
 		}
 		?>
 	</div>
