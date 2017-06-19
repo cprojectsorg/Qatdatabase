@@ -46,7 +46,7 @@ class QatDatabaseModelFields extends JModelList {
 		
 		if(is_numeric($published)) {
 			$query->where('field.published = ' . (int) $published);
-		} elseif ($published === '') {
+		} elseif ($published == '') {
 			$query->where('(field.published IN (0,1))');
 		}
 		
