@@ -3,7 +3,6 @@ CREATE TABLE `#__qatdatabase_items` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`title` varchar(255) NOT NULL,
 	`alias` varchar(255) NOT NULL,
-	`content` text NOT NULL,
 	`published` tinyint(4) NOT NULL,
 	`created` datetime NOT NULL,
 	`publish_up` datetime NOT NULL,

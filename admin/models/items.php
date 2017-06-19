@@ -5,7 +5,7 @@ jimport('joomla.application.component.modellist');
 class QatDatabaseModelItems extends JModelList {
 	public function __construct($config = array()) {
 		if(empty($config['filter_fields'])) {
-			$config['filter_fields'] = array('id', 'catid', 'title', 'content', 'created', 'publish_up', 'publish_down', 'published');
+			$config['filter_fields'] = array('id', 'catid', 'title', 'created', 'publish_up', 'publish_down', 'published');
 		}
 		parent::__construct($config);
 	}
@@ -13,14 +13,11 @@ class QatDatabaseModelItems extends JModelList {
 	protected function getListQuery() {
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select($this->getState('list.select', 'item.id, item.title, item.alias, item.content, item.published, item.created, item.publish_up, item.publish_down, item.catid'))->from('#__qatdatabase_items AS item');
+		$query->select($this->getState('list.select', 'item.id, item.title, item.alias, item.published, item.created, item.publish_up, item.publish_down, item.catid'))->from('#__qatdatabase_items AS item');
 		$search = $this->getState('filter.search');
-		if(!empty($search)) {
-			$like = $db->quote('%' . $search . '%');
-			$query->where('content LIKE' . $like);
-		}
 		$published = $this->getState('filter.published');
 		$catid = $this->getState('filter.catid');
+		
 		if (is_numeric($catid)) {
 			$type = $this->getState('filter.catid.include', true) ? '= ' : '<> ';
 			$SubCatsInc = $this->getState('filter.subcategories', false);
@@ -37,9 +34,10 @@ class QatDatabaseModelItems extends JModelList {
 		
 		if(is_numeric($published)) {
 			$query->where('item.published = ' . (int) $published);
-		} elseif ($published === '') {
+		} elseif ($published == '') {
 			$query->where('(item.published IN (0,1))');
 		}
+		
 		$orderCol = $this->state->get('list.ordering', 'item.title');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 		$query->select('c.title AS category_title')->join('LEFT', '#__categories as c ON c.id = item.catid');

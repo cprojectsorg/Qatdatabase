@@ -25,7 +25,6 @@ $listDirn = $this->escape($this->filter_order_Dir);
 					<th width="2%"><?php echo JHtml::_('grid.checkall'); ?></th>
 					<th width="5%"><?php echo JHtml::_('grid.sort', 'COM_QATDATABASE_ITEM_STATUS', 'published', $listDirn, $listOrder); ?></th>
 					<th><?php echo JHtml::_('grid.sort', 'COM_QATDATABASE_ITEM_TITLE', 'title', $listDirn, $listOrder); ?></th>
-					<th widht="70%"><?php echo JHtml::_('grid.sort', 'COM_QATDATABASE_ITEM_CONTENT', 'content', $listDirn, $listOrder); ?></th>
 					<th><?php echo JHtml::_('grid.sort', 'COM_QATDATABASE_ITEM_CATEGORY', 'catid', $listDirn, $listOrder); ?></th>
 					<th><?php echo JHtml::_('grid.sort', 'COM_QATDATABASE_ID', 'id', $listDirn, $listOrder); ?></th>
 				</tr>
@@ -59,9 +58,6 @@ $listDirn = $this->escape($this->filter_order_Dir);
 						</td>
 						<td>
 							<a href="<?php echo $link; ?>" class="hasTooltip" title="<?php echo JText::_('COM_QATDATABASE_ITEM_EDIT_TOOLTIP'); ?>"><?php echo $row->title; ?></a>
-						</td>
-						<td>
-							<?php echo $row->content; ?>
 						</td>
 						<td>
 							<?php echo $row->category_title; ?>
