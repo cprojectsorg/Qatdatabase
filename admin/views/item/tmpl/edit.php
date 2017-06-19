@@ -8,10 +8,13 @@ JHtml::_('formbehavior.chosen', 'select');
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'contentsTab', array('active' => 'contentTab')); ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'contentsTab', 'contentTab', JText::_('COM_QATDATABASE_ITEM_CONTENT', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'contentsTab', 'contentTab', JText::_('COM_QATDATABASE_TAB_ITEM_CONTENTS', true)); ?>
 				<div class="row-fluid">
 					<div class="span9">
 						<fieldset class="adminform">
+							<?php
+							echo $this->model->LoadFields();
+							?>
 							<div class="control-group">
 								<div class="control-label" style="display: inline-block !important; float: none !important;">
 									<?php echo $this->form->getLabel('content'); ?>

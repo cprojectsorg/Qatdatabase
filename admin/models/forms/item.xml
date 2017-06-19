@@ -29,16 +29,6 @@
 		/>
 		
 		<field
-			name="content"
-			type="textarea"
-			label="COM_QATDATABASE_ITEM_CONTENT"
-			description="COM_QATDATABASE_FIELD_CONTENT_DESC"
-			class="input-xxlarge"
-			rows="17"
-			required="true"
-		/>
-		
-		<field
 			name="catid"
 			type="category"
 			extension="com_qatdatabase"

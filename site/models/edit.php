@@ -4,7 +4,28 @@ defined('_JEXEC') or die ('Restricted access');
 jimport('joomla.application.component.modelitem');
 class QatDatabaseModelEdit extends JModelItem {
 	public $required;
+	
+	public function LoadCategoryField() {
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('*')->from('#__categories')->where('extension=\'com_qatdatabase\'');
+		$db->setQuery($query);
+		$Categories = $db->loadObjectList();
+		
+		$return = '<select name="fld_qdbcategory">';
+		$return .= '<option value="">' . JText::_('COM_QATDATABASE_FLD_SELECT_CATEGORY') . '</option>';
+		
+		foreach($Categories as $Category) {
+			$return .= '<option value="' . $Category->id . '">' . $Category->title . '</option>';
+		}
+		
+		$return .= '</select>';
+		
+		return $return;
+	}
+	
 	public function LoadFields() {
+		echo $this->LoadCategoryField();
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('*')->from('#__qatdatabase_fields');

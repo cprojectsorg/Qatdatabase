@@ -6,7 +6,7 @@
 	<authorEmail>joomla@cprojects.org</authorEmail>
 	<authorUrl>http://cprojects.org/</authorUrl>
 	<license>General Public License version 3 or later; see LICENSE.txt</license>
-	<version>0.1</version>
+	<version>0.2-beta</version>
 	<description>COM_QATDATABASE_DESC</description>
 	
 	<install>

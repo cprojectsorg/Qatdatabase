@@ -46,6 +46,7 @@ class QatDatabaseViewLayout extends JViewLegacy {
 		$title = JText::_('COM_QATDATABASE') . ': ' . JText::_('COM_QATDATABASE_LAYOUT_VIEW_TITLE') . $Title;
 		
 		JToolBarHelper::title($title, 'database');
+		JToolBarHelper::apply('layout.apply');
 	}
 }
 ?>
