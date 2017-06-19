@@ -9,6 +9,7 @@ class QatDatabaseViewItem extends JViewLegacy {
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
 		$this->script = $this->get('Script');
+		$this->model = $this->getModel();
 		if(count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;

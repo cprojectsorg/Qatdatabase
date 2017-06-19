@@ -90,6 +90,11 @@
 	box-shadow: inset 1px 1px 1px 0px #FFFFFF;
 	font-size: 13px;
 	font-weight: bold;
+	cursor: default;
+}
+
+.ordering-item.active {
+	background: #EAE3BE;
 }
 
 .ordering-item:last-child {
