@@ -74,7 +74,20 @@ class QatDatabaseModelField extends JModelAdmin {
 		}
 		
 		if($fieldID == '3') {
+			if($data->parameters == '[jtype]') {
+				$IfJtypeChecked = ' checked="checked"';
+				$IfJtypeCheckedClass = ' btn active';
+				$IfBtypeChecked = '';
+				$IfBtypeCheckedClass = '';
+			} elseif($data->parameters == '[btype]') {
+				$IfJtypeChecked = '';
+				$IfJtypeCheckedClass = '';
+				$IfBtypeChecked = ' checked="checked"';
+				$IfBtypeCheckedClass = ' btn active';
+			}
 			
+			$return = '<div id="paramscontr" class="paramscz control-group"><div class="controls" style="margin: 0px !important;"><span>' . JText::_('COM_QATDATABASE_FIELD_CALENDAR_STYLE') . ': </span><fieldset class="radio btn-group btn-group-yesno"><input id="field-option-type-jtype"' . $IfJtypeChecked . ' value="[jtype]" type="radio" name="jform[parameters][]"><label id="field-option-caltype-jtype-label" onclick="this.addClass(\'active\'); this.addClass(\'btn-success\'); document.getElementById(\'field-option-caltype-btype-label\').removeClass(\'btn-success\'); document.getElementById(\'field-option-caltype-btype-label\').removeClass(\'active\');" class="btn' . $IfJtypeCheckedClass . '" for="field-option-type-jtype" aria-invalid="false">' . JText::_('COM_QATDATABASE_FIELD_CALENDAR_STYLE_JOOMLA') . '</label><input id="field-option-type-btype"' . $IfBtypeChecked . ' value="[btype]" type="radio" name="jform[parameters][]"><label onclick="this.addClass(\'active\'); this.addClass(\'btn-success\'); document.getElementById(\'field-option-caltype-jtype-label\').removeClass(\'btn-success\'); document.getElementById(\'field-option-caltype-jtype-label\').removeClass(\'active\');" id="field-option-caltype-btype-label" class="btn' . $IfBtypeCheckedClass . '" for="field-option-type-btype" aria-invalid="false">' . JText::_('COM_QATDATABASE_FIELD_CALENDAR_STYLE_DEFAULT') . '</label></fieldset></div></div>';
+			return $return;
 		}
 		
 		if($fieldID == '4') {
