@@ -18,6 +18,8 @@ class QatDatabaseViewLayout extends JViewLegacy {
 			JFactory::getApplication()->redirect('index.php?option=com_qatdatabase&view=layout&layout=select');
 		}
 		
+		$this->setDocument();
+		
 		parent::display($tpl);
 	}
 	
@@ -46,7 +48,15 @@ class QatDatabaseViewLayout extends JViewLegacy {
 		$title = JText::_('COM_QATDATABASE') . ': ' . JText::_('COM_QATDATABASE_LAYOUT_VIEW_TITLE') . $Title;
 		
 		JToolBarHelper::title($title, 'database');
-		JToolBarHelper::apply('layout.apply');
+		
+		if($layout !== 'select') {
+			JToolBarHelper::apply('layout.apply');
+		}
+	}
+	
+	protected function setDocument() {
+		$document = JFactory::getDocument();
+		$document->addScript(JURI::root() . "/administrator/components/com_qatdatabase/views/layout/save.js");
 	}
 }
 ?>

@@ -24,11 +24,29 @@ class QatDatabaseModelEdit extends JModelItem {
 		return $return;
 	}
 	
+	protected function IsTableEmpty($Table) {
+		$db = JFactory::getDBO();
+		$query = "SELECT COUNT(*) FROM `" . $Table . "`";
+		$db->setQuery($query);
+		$Result = $db->loadResult();
+		
+		if($Result == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	public function LoadFields() {
 		echo $this->LoadCategoryField();
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select('*')->from('#__qatdatabase_fields');
+		$query->select('*')->from('#__qatdatabase_fields AS field');
+		
+		if($this->IsTableEmpty('#__qatdatabase_fields_ordering') == 'false') {
+			$query->join('RIGHT', '#__qatdatabase_fields_ordering AS fieldorder ON field.id = fieldorder.fieldid')->order('fieldorder.ordering ASC');
+		}
+		
 		$db->setQuery($query);
 		$loadQuery = $db->loadObjectList();
 		foreach($loadQuery as $field) {
@@ -56,7 +74,7 @@ class QatDatabaseModelEdit extends JModelItem {
 			
 			$this->required = array('text' => '*', 'class' => 'required', 'input' => 'required="required"');
 			
-			echo '<div class="control-group' . $inline . '"><label class="qatdatabase-label' . $forClass . '"' . $forLabel . '>' . $field->title . ': ' . (($field->required == '1') ? '<span class="qatdatabase-required-star">' . $this->required['text'] . '</span> ' : '') . $FieldDesc . '</label><div class="qatdatabase-field' . $inline . '">' . $this->RenderField($field->type, $field->title, $field->name, $field->names, $field->values, $field->rows, $field->cols, $field->parameters, $field->max_length, $field->required) . '</div></div>';
+			echo '<div class="control-group' . $inline . '"><label class="qatdatabase-label' . $forClass . '"' . $forLabel . '><h4 class="qatdatabase-ilheading">' . $field->title . ': </h4>' . (($field->required == '1') ? '<span class="qatdatabase-required-star">' . $this->required['text'] . '</span> ' : '') . $FieldDesc . '</label><div class="qatdatabase-field' . $inline . '">' . $this->RenderField($field->type, $field->title, $field->name, $field->names, $field->values, $field->rows, $field->cols, $field->parameters, $field->max_length, $field->required) . '</div></div>';
 		}
 	}
 	
@@ -81,8 +99,12 @@ class QatDatabaseModelEdit extends JModelItem {
 		}
 		
 		if($TypeId == '3') {
-			$field = '<input class="' . (($Required == '1') ? $this->required['class'] : '') . '" id="' . $FieldName . '" name="' . $FieldName . '" type="date"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' />';
-			$return = $field;
+			if($Parameters == '[jtype]') {
+				$return = JHTML::_('calendar', '', $FieldName, $FieldName, '%Y-%m-%d', '');
+			} elseif($Parameters == '[btype]') {
+				$field = '<input class="' . (($Required == '1') ? $this->required['class'] : '') . '" id="' . $FieldName . '" name="' . $FieldName . '" type="date"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' />';
+				$return = $field;
+			}
 		}
 		
 		if($TypeId == '4') {
@@ -134,7 +156,7 @@ class QatDatabaseModelEdit extends JModelItem {
 		
 		if($TypeId == '9') {
 			if($Parameters == '[editor]') {
-				$editor = &JFactory::getEditor();
+				$editor = JFactory::getEditor();
 				$params = array('smilies' => '0', 'style' => '1', 'layer' => '0', 'table' => '0', 'clear_entities' => '0');
 				$field = $editor->display('', '', $Rows * 100, $Cols * 100, $Cols, $Rows, false, $params);
 			}

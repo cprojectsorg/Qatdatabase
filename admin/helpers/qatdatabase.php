@@ -8,7 +8,6 @@ class QatDatabaseHelper extends JHelperContent {
 		JHtmlSidebar::addEntry(JText::_('COM_QATDATABASE_LAYOUT_CONTROL'), 'index.php?option=com_qatdatabase&view=layout', $vName == 'layout');
 		JHtmlSidebar::addEntry(JText::_('COM_QATDATABASE_ITEMS_CATEGORIES'), 'index.php?option=com_categories&extension=com_qatdatabase', $vName == 'categories');
 	}
-	
 }
 
 function getFooter() {

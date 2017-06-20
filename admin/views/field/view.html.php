@@ -45,6 +45,7 @@ class QatDatabaseViewField extends JViewLegacy {
 		$document->addScript(JURI::root() . "/administrator/components/com_qatdatabase/views/field/submitbutton.js");
 		
 		JText::script('COM_QATDATABASE_TYPE');
+		
 		JText::script('COM_QATDATABASE_FIELD_NAME');
 		JText::script('COM_QATDATABASE_FIELD_ROWS');
 		JText::script('COM_QATDATABASE_FIELD_VALUE');
@@ -57,7 +58,11 @@ class QatDatabaseViewField extends JViewLegacy {
 		JText::script('COM_QATDATABASE_FIELD_MOVE_DOWN');
 		JText::script('COM_QATDATABASE_FIELD_LINK_TEXT');
 		JText::script('COM_QATDATABASE_FIELD_MAX_LENGTH');
+		JText::script('COM_QATDATABASE_FIELD_CALENDAR_STYLE');
 		JText::script('COM_QATDATABASE_FIELD_CURRENCY_SYMBOL');
+		JText::script('COM_QATDATABASE_FIELD_CALENDAR_STYLE_JOOMLA');
+		JText::script('COM_QATDATABASE_FIELD_CALENDAR_STYLE_DEFAULT');
+		
 		JText::script('COM_QATDATABASE_ERROR_FIELD_FIELD_ERROR');
 	}
 }
