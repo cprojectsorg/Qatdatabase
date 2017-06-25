@@ -7,9 +7,13 @@
 
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
 jimport('joomla.application.component.controllerform');
-class QatDatabaseControllerItem extends JControllerForm {
-	public function getModel($name = 'Item', $prefix = '', $config = array('ignore_request' => true)) {
+
+JLoader::register('QatDatabaseControllerItem', JPATH_ADMINISTRATOR . '/components/com_qatdatabase/controllers/item.php');
+
+class QatDatabaseControllerEdit extends QatDatabaseControllerItem {
+	public function getModel($name = 'Edit', $prefix = '', $config = array('ignore_request' => true)) {
 		return parent::getModel($name, $prefix, array('ignore_request' => false));
 	}
 	
@@ -20,20 +24,15 @@ class QatDatabaseControllerItem extends JControllerForm {
 		$data = $jinput->post->getArray();
 		
 		$model = $this->getModel();
+		$SaveItemProcess = $model->save($data);
 		
 		$app = JFactory::getApplication();
-		
-		if($model->save($data)) {
+		if($SaveItemProcess) {
 			$app->enqueueMessage(JText::_('JLIB_APPLICATION_SAVE_SUCCESS'), 'message');
-			
-			if($this->task == 'save') {
-				$app->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=items', false));
-			} elseif($this->task == 'apply') {
-				$app->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=item&layout=edit&id=' . $model->postSaveHook(), false));
-			}
+			$app->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=edit'));
 		} else {
 			$app->enqueueMessage(JText::_('COM_QATDATABASE_ITEM_SAVE_ERROR'), 'error');
-			$app->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=item&layout=edit', false));
+			$app->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=edit'));
 		}
 		
 		return true;

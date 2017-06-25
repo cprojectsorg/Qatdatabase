@@ -1,4 +1,10 @@
 <?php
+/*
+ * @package    Qatdatabase
+ * @copyright  Copyright (C) 2015 - 2017 cprojects.org. All rights reserved.
+ * @license    GNU General Public License version 3 or later; see LICENSE.txt
+ */
+
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
 JHtml::_('formbehavior.chosen', 'select');
@@ -52,12 +58,12 @@ $listDirn = $this->escape($this->filter_order_Dir);
 								JHtml::_('actionsdropdown.' . $menAct, 'cb' . $i, 'items');
 								$menAct = $trashed ? 'untrash' : 'trash';
 								JHtml::_('actionsdropdown.' . $menAct, 'cb' . $i, 'items');
-								echo JHtml::_('actionsdropdown.render', $this->escape($row->title));
+								echo JHtml::_('actionsdropdown.render', $this->escape($row->id));
 								?>
 							</div>
 						</td>
 						<td>
-							<a href="<?php echo $link; ?>" class="hasTooltip" title="<?php echo JText::_('COM_QATDATABASE_ITEM_EDIT_TOOLTIP'); ?>"><?php echo $row->title; ?></a>
+							<a href="<?php echo $link; ?>" class="hasTooltip" title="<?php echo JText::_('COM_QATDATABASE_ITEM_EDIT_TOOLTIP'); ?>"><?php echo JText::_('COM_QATDATABASE_ITEM_EDIT_TOOLTIP'); ?></a>
 						</td>
 						<td>
 							<?php echo $row->category_title; ?>

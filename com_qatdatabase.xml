@@ -5,6 +5,7 @@
 	<author>cprojects.org</author>
 	<authorEmail>joomla@cprojects.org</authorEmail>
 	<authorUrl>http://cprojects.org/</authorUrl>
+	<copyright>Copyright (C) 2015-2017 cprojects.org. All rights reserved.</copyright>
 	<license>General Public License version 3 or later; see LICENSE.txt</license>
 	<version>0.2-beta</version>
 	<description>COM_QATDATABASE_DESC</description>
@@ -30,6 +31,7 @@
 		<filename>qatdatabase.php</filename>
 		<filename>controller.php</filename>
 		<filename>router.php</filename>
+		<folder>controllers</folder>
 		<folder>views</folder>
 		<folder>helpers</folder>
 		<folder>models</folder>

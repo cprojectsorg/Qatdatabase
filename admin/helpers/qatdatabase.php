@@ -1,4 +1,10 @@
 <?php
+/*
+ * @package    Qatdatabase
+ * @copyright  Copyright (C) 2015 - 2017 cprojects.org. All rights reserved.
+ * @license    GNU General Public License version 3 or later; see LICENSE.txt
+ */
+
 defined('_JEXEC') or die;
 class QatDatabaseHelper extends JHelperContent {
 	public static $extension = 'com_qatdatabase';

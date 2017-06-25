@@ -1,7 +1,15 @@
 <?php
+/*
+ * @package    Qatdatabase
+ * @copyright  Copyright (C) 2015 - 2017 cprojects.org. All rights reserved.
+ * @license    GNU General Public License version 3 or later; see LICENSE.txt
+ */
+
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
 jimport('joomla.application.component.controllerform');
+
 class QatDatabaseControllerLayout extends JControllerForm {
 	public function getModel($name = 'Layout', $prefix = 'QatDatabaseModel', $config = array('ignore_request' => true)) {
 		$model = parent::getModel($name, $prefix, $config);
@@ -10,6 +18,7 @@ class QatDatabaseControllerLayout extends JControllerForm {
 	
 	public function save($key = NULL, $urlVar = NULL) {
 		JSession::checkToken() or die ('Invalid Token');
+		
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 		
 		if($data['type'] == 'postform') {

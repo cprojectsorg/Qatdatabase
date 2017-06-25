@@ -1,25 +1,15 @@
 <?php
+/*
+ * @package    Qatdatabase
+ * @copyright  Copyright (C) 2015 - 2017 cprojects.org. All rights reserved.
+ * @license    GNU General Public License version 3 or later; see LICENSE.txt
+ */
+
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
 jimport('joomla.application.component.modelitem');
+
 class QatDatabaseModelItem extends JModelItem {
-	protected $item;
-	public function getItem() {
-		if(!isset($this->item)) {
-			$db = JFactory::getDBO();
-			$jinput = JFactory::getApplication()->input;
-			$id = $jinput->get('id', '', 'INT');
-			if($id !== '') {
-				$query = $db->getQuery(true);
-				$query->select('*')->from('#__qatdatabase_items')->where('id=' . $id);
-				$db->setQuery((string)$query);
-				$this->item = $db->loadObject();
-			} else {
-				$application = JFactory::getApplication();
-				$application->enqueueMessage('Empty id', 'error');
-			}
-		}
-		
-		return $this->item;
-	}
+	
 }

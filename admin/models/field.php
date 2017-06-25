@@ -1,6 +1,13 @@
 <?php
+/*
+ * @package    Qatdatabase
+ * @copyright  Copyright (C) 2015 - 2017 cprojects.org. All rights reserved.
+ * @license    GNU General Public License version 3 or later; see LICENSE.txt
+ */
+
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
 jimport('joomla.application.component.modeladmin');
 
 class QatDatabaseModelField extends JModelAdmin {
@@ -243,8 +250,18 @@ class QatDatabaseModelField extends JModelAdmin {
 	}
 	
 	public function save($data) {
+		if(!isset($data['created']) || (isset($data['created']) && ($data['created'] == '' || $data['created'] == '0000-00-00 00:00:00'))) {
+			$data['created'] = JFactory::getDate()->toSql();
+		}
+		
+		if(!isset($data['publish_up']) || (isset($data['publish_up']) && ($data['publish_up'] == '' || $data['publish_up'] == '0000-00-00 00:00:00'))) {
+			$data['publish_up'] = JFactory::getDate()->toSql();
+		}
 		
 		if(parent::save($data)) {
+			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_qatdatabase/models', 'QatDatabaseModel');
+			$layoutModel = JModelLegacy::getInstance('Layout', 'QatDatabaseModel');
+			$layoutModel->CheckTheNewFields();
 			return true;
 		}
 		

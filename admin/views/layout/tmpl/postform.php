@@ -1,4 +1,10 @@
 <?php
+/*
+ * @package    Qatdatabase
+ * @copyright  Copyright (C) 2015 - 2017 cprojects.org. All rights reserved.
+ * @license    GNU General Public License version 3 or later; see LICENSE.txt
+ */
+
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
 
@@ -12,7 +18,7 @@ defined('_JEXEC') or die ('Restricted access');
 		<div id="post-form-layout" class="ordering-layout">
 			<?php
 			$Model = $this->getModel();
-			$DetailsArray = array('1-status-name' => JText::_('JPUBLISHED'), '0-status-name' => JText::_('JUNPUBLISHED'), '1-status-class' => 'publish', '0-status-class' => 'unpublish', '1-required-name' => JText::_('COM_QATDATABASE_FIELD_REQUIRED'), '0-required-name' => JText::_('COM_QATDATABASE_FIELD_NOT_REQUIRED'), '1-editable-name' => JText::_('COM_QATDATABASE_FIELD_EDITABLE'), '0-editable-name' => JText::_('COM_QATDATABASE_FIELD_NOT_EDITABLE'), '1-required-class' => 'pin red', '0-required-class' => 'pin', '1-editable-class' => 'pencil blue', '0-editable-class' => 'pencil');
+			$DetailsArray = array('2-status-name' => JText::_('JARCHIVED'), '1-status-name' => JText::_('JPUBLISHED'), '0-status-name' => JText::_('JUNPUBLISHED'), '2-status-class' => 'archive', '1-status-class' => 'publish', '0-status-class' => 'unpublish', '1-required-name' => JText::_('COM_QATDATABASE_FIELD_REQUIRED'), '0-required-name' => JText::_('COM_QATDATABASE_FIELD_NOT_REQUIRED'), '1-editable-name' => JText::_('COM_QATDATABASE_FIELD_EDITABLE'), '0-editable-name' => JText::_('COM_QATDATABASE_FIELD_NOT_EDITABLE'), '1-required-class' => 'pin red', '0-required-class' => 'pin', '1-editable-class' => 'pencil blue', '0-editable-class' => 'pencil');
 			
 			foreach($Model->GetFieldsOrdering() as $i => $field) {
 				$Details = '';

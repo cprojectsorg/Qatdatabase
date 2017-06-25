@@ -3,4 +3,19 @@
 	<layout title="COM_QATDATABASE_ITEM">
 		<message>COM_QATDATABASE_ITEM_MENU_DESC</message>
 	</layout>
+	<fields name="request">
+		<fieldset name="request"
+			addfieldpath="/administrator/components/com_qatdatabase/models/items">
+
+			<field name="id" type="modal_item"
+				label="COM_QATDATABASE_FIELD_SELECT_ITEM_LABEL"
+				required="true"
+				select="true"
+				new="true"
+				edit="true"
+				clear="true"
+				description="COM_QATDATABASE_FIELD_SELECT_ITEM_DESC"
+			/>
+		</fieldset>
+	</fields>
 </metadata>

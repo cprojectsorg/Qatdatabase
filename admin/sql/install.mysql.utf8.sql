@@ -7,7 +7,8 @@ CREATE TABLE `#__qatdatabase_items` (
 	`created` datetime NOT NULL,
 	`publish_up` datetime NOT NULL,
 	`publish_down` datetime NOT NULL,
-	`catid` int(11) NOT NULL DEFAULT '0',
+	`catid` int(11) NOT NULL DEFAULT '-1',
+	`itemdata` TEXT NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 

@@ -1,4 +1,10 @@
 <?php
+/*
+ * @package    Qatdatabase
+ * @copyright  Copyright (C) 2015 - 2017 cprojects.org. All rights reserved.
+ * @license    GNU General Public License version 3 or later; see LICENSE.txt
+ */
+
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
 jimport('joomla.application.component.modellist');
@@ -13,7 +19,7 @@ class QatDatabaseModelItems extends JModelList {
 	protected function getListQuery() {
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select($this->getState('list.select', 'item.id, item.title, item.alias, item.published, item.created, item.publish_up, item.publish_down, item.catid'))->from('#__qatdatabase_items AS item');
+		$query->select($this->getState('list.select', 'item.id, item.alias, item.published, item.created, item.publish_up, item.publish_down, item.catid'))->from('#__qatdatabase_items AS item');
 		$search = $this->getState('filter.search');
 		$published = $this->getState('filter.published');
 		$catid = $this->getState('filter.catid');
@@ -38,24 +44,10 @@ class QatDatabaseModelItems extends JModelList {
 			$query->where('(item.published IN (0,1))');
 		}
 		
-		$orderCol = $this->state->get('list.ordering', 'item.title');
+		$orderCol = $this->state->get('list.ordering', 'item.id');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 		$query->select('c.title AS category_title')->join('LEFT', '#__categories as c ON c.id = item.catid');
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 		return $query;
 	}
-	
-	/*public function GetCatName($catId) {
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('title'))->from('#__categories')->where('id=\'' . $catId . '\'');
-		$db->setQuery($query);
-		$Catjson = json_encode($db->loadObjectList());
-		$CatDejson = json_decode($Catjson, true);
-		foreach($CatDejson as $key => $CatJvalue) {
-			foreach ($CatJvalue as $key => $CatJvalueArr) {
-				echo $CatJvalueArr;
-			}
-		}
-	}*/
 }
