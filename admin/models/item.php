@@ -351,11 +351,19 @@ class QatDatabaseModelItem extends JModelAdmin {
 				$FieldDesc = '';
 			}
 			
+			if(isset($field->labellink) && $field->labellink !== '' && filter_var($field->labellink, FILTER_VALIDATE_URL) == true) {
+				$labellink = '<a href="' . $field->labellink . '" target="_blank">';
+				$labellinkend = '</a>';
+			} else {
+				$labellink = '';
+				$labellinkend = '';
+			}
+			
 			$this->required = array('text' => '*', 'class' => 'required', 'input' => 'required="required"');
 			
 			$return .= '<div class="control-group' . $inline . '">';
 			$return .= '<div class="control-label">';
-			$return .= '<label class="qatdatabase-label' . $forClass . '"' . $forLabel . '><h4 class="qatdatabase-ilheading">' . $field->title . ': </h4>' . (($field->required == '1') ? '<span class="qatdatabase-required-star">' . $this->required['text'] . '</span> ' : '') . $FieldDesc . '</label>';
+			$return .= '<label class="qatdatabase-label' . $forClass . '"' . $forLabel . '><h4 class="qatdatabase-ilheading">' . $labellink . $field->title . $labellinkend . ': </h4>' . (($field->required == '1') ? '<span class="qatdatabase-required-star">' . $this->required['text'] . '</span> ' : '') . $FieldDesc . '</label>';
 			$return .= '</div>';
 			$return .= '<div class="controls qatdatabase-field' . $inline . '">';
 			$return .= $this->RenderField($field->type, $field->title, $field->name, $field->names, $field->values, $field->rows, $field->cols, $field->parameters, $field->max_length, $field->required);

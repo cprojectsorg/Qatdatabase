@@ -17,6 +17,7 @@ CREATE TABLE `#__qatdatabase_fields` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`title` varchar(255) NOT NULL,
 	`name` varchar(255) NOT NULL,
+	`labellink` varchar(255) NOT NULL,
 	`description` varchar(255) NOT NULL,
 	`required` tinyint(4) NOT NULL,
 	`editable` tinyint(4) NOT NULL,

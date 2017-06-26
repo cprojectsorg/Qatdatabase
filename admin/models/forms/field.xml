@@ -87,6 +87,15 @@
 		</field>
 		
 		<field
+			name="labellink"
+			type="url"
+			validate="url"
+			label="COM_QATDATABASE_FIELD_LABEL_LINK"
+			description="COM_QATDATABASE_FIELD_LABEL_LINK"
+			class="inputbox"
+		/>
+		
+		<field
 			name="description"
 			type="text"
 			label="COM_QATDATABASE_FIELD_DESCRIPTION"

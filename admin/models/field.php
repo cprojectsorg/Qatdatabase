@@ -41,7 +41,7 @@ class QatDatabaseModelField extends JModelAdmin {
 	}
 	
 	public function FieldTypeData() {
-		$data = JFactory::getApplication()->getUserState('com_qatdatabase.edit.field.data', array());
+		$data = $this->getItem();
 		if(empty($data)) {
 			$data = $this->getItem();
 		}
@@ -50,7 +50,6 @@ class QatDatabaseModelField extends JModelAdmin {
 	}
 	
 	public function GetFieldsInputs($fieldID) {
-		$data = JFactory::getApplication()->getUserState('com_qatdatabase.edit.field.data', array());
 		if(empty($data)) {
 			$data = $this->getItem();
 			
