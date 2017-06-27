@@ -89,6 +89,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 			}
 		}
 		
+		// TODO: use switch instead of 'if statement' for $TypeId.
 		if($TypeId == '1') {
 			$count = '0';
 			$value = explode(',', $Values);
@@ -124,7 +125,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 		
 		if($TypeId == '3') {
 			if($Parameters == '[jtype]') {
-				$return = JHTML::_('calendar', ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : ''), $FieldName, $FieldName, '%Y-%m-%d', '');
+				$return = JHTML::_('calendar', ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : ''), $FieldName, $FieldName, '%Y-%m-%d', array('class' => 'required'));
 			} elseif($Parameters == '[btype]') {
 				$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '" id="' . $FieldName . '" name="' . $FieldName . '" type="date"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' />';
 				$return = $field;
@@ -139,6 +140,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 			if(isset($ItemFieldValue)) {
 				$isChecked = array();
 				
+				// Convert values to keys (default keys not needed)
 				foreach($ItemFieldValue as $key => $val) {
 					$isChecked[$val] = 'true';
 				}
@@ -268,7 +270,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 		$return .= '<div class="control-label">';
 		$return .= '<label class="qatdatabase-label" for="qdbcategory"><h4 class="qatdatabase-ilheading">' . JText::_('COM_QATDATABASE_FLD_SELECT_CATEGORY_LABEL') . ': </h4><span class="qatdatabase-required-star">*</span></label>';
 		$return .= '</div>';
-		$return .= '<select id="qdbcategory" required name="catid">';
+		$return .= '<select id="qdbcategory" class="required" name="catid">';
 		$return .= '<option value="">' . JText::_('COM_QATDATABASE_FLD_SELECT_CATEGORY') . '</option>';
 		
 		foreach($Categories as $Category) {
@@ -329,15 +331,8 @@ class QatDatabaseModelItem extends JModelAdmin {
 		$loadQuery = $db->loadObjectList();
 		
 		foreach($loadQuery as $field) {
-			if($field->type !== '1' || $field->type !== '4' || $field->type !== '12' || $field->type !== '13') {
-				$forLabel = ' for="' . $field->name . '"';
-				$forClass = '';
-			}
-			
-			if($field->type == '1' || $field->type == '4' || $field->type == '12' || $field->type == '13') {
-				$forLabel = '';
-				$forClass = ' text';
-			}
+			$forLabel = ' for="' . $field->name . '"';
+			$forClass = '';
 			
 			if($field->type == '2') {
 				$inline = ' inline';
@@ -359,7 +354,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 				$labellinkend = '';
 			}
 			
-			$this->required = array('text' => '*', 'class' => 'required', 'input' => 'required="required"');
+			$this->required = array('text' => '*', 'class' => 'required', 'input' => 'required');
 			
 			$return .= '<div class="control-group' . $inline . '">';
 			$return .= '<div class="control-label">';

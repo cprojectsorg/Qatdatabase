@@ -62,6 +62,7 @@ div.qatdatabase-field {
 
 .qatdatabase-field.inline {
 	display: inline-block;
+	margin-left: 5px;
 }
 
 .qatdatabase-field>span.currency {
@@ -90,6 +91,10 @@ label.qatdatabase-label>span.qatdatabase-field-desc {
 	font-weight: bold;
 }
 
-.qatdatabase-ilheading {
+.qatdatabase-ilheading, div.control-group.inline>div.control-label {
 	display: inline;
+}
+
+input.invalid, textarea.invalid {
+	border: 1px solid #9D261D;
 }

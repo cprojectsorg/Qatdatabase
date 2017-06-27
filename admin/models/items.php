@@ -11,7 +11,7 @@ jimport('joomla.application.component.modellist');
 class QatDatabaseModelItems extends JModelList {
 	public function __construct($config = array()) {
 		if(empty($config['filter_fields'])) {
-			$config['filter_fields'] = array('id', 'catid', 'title', 'created', 'publish_up', 'publish_down', 'published');
+			$config['filter_fields'] = array('id', 'catid', 'created', 'publish_up', 'publish_down', 'published');
 		}
 		parent::__construct($config);
 	}

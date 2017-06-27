@@ -20,6 +20,6 @@ echo JHtml::_('form.token');
 <input type="hidden" name="id" value="<?php echo (int) $this->item->id; ?>" />
 <input type="hidden" name="task" value="edit.apply" />
 <div class="btn-group">
-<button class="btn btn-primary validate"><?php echo JText::_('JSAVE'); ?></button>
+<button type="submit" class="btn btn-primary validate"><?php echo JText::_('JSAVE'); ?></button>
 </div>
 </form>
