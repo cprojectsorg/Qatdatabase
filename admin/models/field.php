@@ -57,6 +57,7 @@ class QatDatabaseModelField extends JModelAdmin {
 			$data->values = explode(',', $data->values);
 		}
 		
+		// TODO: use switch instead of 'if statement' for $fieldID.
 		if($fieldID == '1') {
 			$count = '0';
 			$return = '<div id="paramscontr" class="paramscz control-group"><input type="button" onclick="AddMore(\'1\');" class="btn btn-success" value="' . JText::_('COM_QATDATABASE_FIELD_ADD_MORE') . '" /></div>';
