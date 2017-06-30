@@ -42,5 +42,17 @@
 			<option value="0">JNO</option>
 		</field>
 		
+		<field
+			name="pcategory_type"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="COM_QATDATABASE_CONFIGURATION_GENERAL_CATEGORY_OPTIONS"
+			description="COM_QATDATABASE_CONFIGURATION_GENERAL_CATEGORY_OPTIONS"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
 	</fieldset>
 </config>
+

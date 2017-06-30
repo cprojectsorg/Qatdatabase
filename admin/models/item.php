@@ -62,7 +62,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 		// Check the unassigned post data.
 		foreach($data as $field => $fieldvalue) {
 			if(!isset($exceptedFields[$field])) {
-				if(is_array($unassignedData[$field])) {
+				if(isset($unassignedData[$field]) && is_array($unassignedData[$field])) {
 					$unassignedData[$field] = array($fieldvalue);
 				} else {
 					$unassignedData[$field] = $fieldvalue;
@@ -72,6 +72,15 @@ class QatDatabaseModelItem extends JModelAdmin {
 		
 		// Assign all unassigned data to the itemdata column.
 		$data['itemdata'] = json_encode($unassignedData);
+		
+		// Check if all categories selected.
+		if(in_array('-1', $data['catid'])) {
+			$data['catid'] = '-1';
+		} else {
+			if(is_array($data['catid'])) {
+				$data['catid'] = implode(',', $data['catid']);
+			}
+		}
 		
 		if(parent::save($data)) {
 			return true;
@@ -121,7 +130,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 				
 				$return = $field;
 				break;
-				
+			
 			case 2:
 				$field = '<input' . ((isset($ItemFieldValue) && $ItemFieldValue !== null && $ItemFieldValue == $FieldTitle) ? ' checked ' : ' ') . 'class="' . (($Required == '1') ? $this->required['class'] : '') . '" id="' . $FieldName . '" name="' . $FieldName . '" value="' . $FieldTitle . '" type="checkbox"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' />';
 				$return = $field;
@@ -260,12 +269,18 @@ class QatDatabaseModelItem extends JModelAdmin {
 		}
 	}
 	
-	protected function LoadCategoryField($selectedCategory = 0) {
-		if(is_numeric($selectedCategory) && $selectedCategory !== 0) {
-			$SelectedCatId = $selectedCategory;
+	protected function LoadCategoryField($selected = 0) {
+		$multicat = JComponentHelper::getParams('com_qatdatabase')->get('pcategory_type', '0');
+		
+		if($multicat == '1') {
+			$multiple = ' multiple="multiple" name="catid[]"';
 		} else {
-			$SelectedCatId = '';
+			$multiple = ' name="catid"';
 		}
+		
+		
+		$SelectedCats = explode(',', $selected);
+		$isSelected = array();
 		
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
@@ -273,21 +288,39 @@ class QatDatabaseModelItem extends JModelAdmin {
 		$db->setQuery($query);
 		$Categories = $db->loadObjectList();
 		
+		if(count($SelectedCats) >= count($Categories)) {
+			$selected = '-1';
+			$nocheck = true;
+		} else {
+			$nocheck = false;
+		}
+		
+		foreach($SelectedCats as $selectedCat => $value) {
+			$isSelected[$value] = ' selected';
+		}
+		
 		$return = '<div class="control-group">';
 		$return .= '<div class="control-label">';
-		$return .= '<label class="qatdatabase-label" for="qdbcategory"><h4 class="qatdatabase-ilheading">' . JText::_('COM_QATDATABASE_FLD_SELECT_CATEGORY_LABEL') . ': </h4><span class="qatdatabase-required-star">*</span></label>';
+		$return .= '<label class="qatdatabase-label" for="qdbcategory">';
+		$return .= '<h4 class="qatdatabase-ilheading">' . JText::_('COM_QATDATABASE_FLD_SELECT_CATEGORY_LABEL') . ': </h4>';
+		$return .= '<span class="qatdatabase-required-star">*</span>';
+		$return .= '</label>';
 		$return .= '</div>';
-		$return .= '<select id="qdbcategory" class="required" name="catid">';
+		$return .= '<select' . $multiple . ' id="qdbcategory" required="required" class="required">';
 		$return .= '<option value="">' . JText::_('COM_QATDATABASE_FLD_SELECT_CATEGORY') . '</option>';
 		
+		if($multicat == '1') {
+			$return .= '<option ' . (($selected == '-1') ? 'selected="selected" ' : '') . 'value="-1">' . JText::_('COM_QATDATABASE_FIELD_ALL_CATEGORIES') . '</option>';
+		}
+		
 		foreach($Categories as $Category) {
-			if($SelectedCatId == $Category->id) {
-				$isSelected = ' selected';
+			if(isset($isSelected[$Category->id]) && $nocheck == false) {
+				$Selected = ' selected="selected"';
 			} else {
-				$isSelected = '';
+				$Selected = '';
 			}
 			
-			$return .= '<option' . $isSelected . ' value="' . $Category->id . '">' . $Category->title . '</option>';
+			$return .= '<option' . $Selected . ' value="' . $Category->id . '">' . $Category->title . '</option>';
 		}
 		
 		$return .= '</select>';

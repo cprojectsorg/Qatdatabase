@@ -7,6 +7,7 @@
 
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
 foreach($this->items as $key => $items) {
 	echo "<div class=\"" . $this->cssPrefix . "item\">";
 		echo "<div class=\"" . $this->cssPrefix . "item-top\">";

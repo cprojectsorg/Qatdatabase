@@ -7,6 +7,7 @@
 
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
 class QatDatabaseViewItems extends JViewLegacy {
 	public function display($tpl = null) {
 		$this->items = $this->get('Items');
