@@ -7,6 +7,7 @@
 
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
 jimport('joomla.database.table');
 
 class QatDatabaseTableField extends JTable {
@@ -15,7 +16,6 @@ class QatDatabaseTableField extends JTable {
 	}
 	
 	public function bind($array, $ignore = '') {
-		
 		if(is_array($array['catid'])) {
 			$array['catid'] = implode(',', $array['catid']);
 		}

@@ -95,6 +95,6 @@ label.qatdatabase-label>span.qatdatabase-field-desc {
 	display: inline;
 }
 
-input.invalid, textarea.invalid {
+input.invalid, textarea.invalid, select.invalid {
 	border: 1px solid #9D261D;
 }

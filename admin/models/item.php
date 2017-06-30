@@ -37,7 +37,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 		// The fields which is not used (Like token) or has a column in `qatdatabase_items` table and is not needed to be inside the itemdata column and is automaticlly saved.
 		$exceptedFields = array('task', JSession::getFormToken(), 'id', 'alias', 'created', 'publish_up', 'publish_down', 'published', 'catid');
 		
-		// Assign values to keys.
+		// Assign each value to a key.
 		foreach($exceptedFields as $exceptedField) {
 			$exceptedFields[$exceptedField] = '';
 		}
@@ -89,152 +89,159 @@ class QatDatabaseModelItem extends JModelAdmin {
 			}
 		}
 		
-		// TODO: use switch instead of 'if statement' for $TypeId.
-		if($TypeId == '1') {
-			$count = '0';
-			$value = explode(',', $Values);
-			$names = explode(',', $Names);
-			
-			if(isset($ItemFieldValue)) {
-				$isChecked = array();
+		switch($TypeId) {
+			case 1:
+				$count = '0';
+				$value = explode(',', $Values);
+				$names = explode(',', $Names);
 				
-				foreach($ItemFieldValue as $key => $val) {
-					$isChecked[$val] = 'true';
+				if(isset($ItemFieldValue)) {
+					$isChecked = array();
+					
+					foreach($ItemFieldValue as $key => $val) {
+						$isChecked[$val] = 'true';
+					}
 				}
-			}
-			
-			$field = '<div class="qatdatabase-checkbox-group">';
-			foreach($names as $name) {
-				if(isset($isChecked[$value[$count]])) {
-					$checked = true;
-				} else {
-					$checked = false;
+				
+				$field = '<fieldset' . (($Required == '1') ? ' ' . $this->required['input'] . ' ' : ' ') . 'id="' . $FieldName . '" class="qatdatabase-checkbox-group checkboxes ' . (($Required == '1') ? $this->required['class'] : '') . '">';
+				foreach($names as $name) {
+					if(isset($isChecked[$value[$count]])) {
+						$checked = true;
+					} else {
+						$checked = false;
+					}
+					
+					$field .= '<div id="' . $FieldName . '" class="qatdatabase-checkbox-item">';
+					$field .= '<label class="qatdatabase-label" for="' . $FieldName . $count . '">' . $name . '</label>';
+					$field .= '<input style="float: none; margin: 0px;"' . ((isset($checked) && $checked !== null && $checked == true) ? ' checked ' : ' ') . 'id="' . $FieldName . $count . '" type="checkbox" value="' . $value[$count] . '" name="' . $FieldName . '[]" />';
+					$field .= '</div>';
+					$count++;
 				}
-				$field .= '<div id="' . $FieldName . '" class="qatdatabase-checkbox-item"><label class="qatdatabase-label" for="' . $FieldName . $count . '">' . $name . '</label><input' . ((isset($checked) && $checked !== null && $checked == true) ? ' checked ' : ' ') . 'id="' . $FieldName . $count . '" type="checkbox" value="' . $value[$count] . '" name="' . $FieldName . '[]" /></div>';
-				$count++;
-			}
-			$field .= '</div>';
-			
-			$return = $field;
-		}
-		
-		if($TypeId == '2') {
-			$field = '<input' . ((isset($ItemFieldValue) && $ItemFieldValue !== null && $ItemFieldValue == $FieldTitle) ? ' checked ' : ' ') . 'class="' . (($Required == '1') ? $this->required['class'] : '') . '" id="' . $FieldName . '" name="' . $FieldName . '" value="' . $FieldTitle . '" type="checkbox"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' />';
-			$return = $field;
-		}
-		
-		if($TypeId == '3') {
-			if($Parameters == '[jtype]') {
-				$return = JHTML::_('calendar', ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : ''), $FieldName, $FieldName, '%Y-%m-%d', array('class' => 'required'));
-			} elseif($Parameters == '[btype]') {
-				$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '" id="' . $FieldName . '" name="' . $FieldName . '" type="date"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' />';
+				$field .= '</fieldset>';
+				
 				$return = $field;
-			}
-		}
-		
-		if($TypeId == '4') {
-			$count = '0';
-			$value = explode(',', $Values);
-			$names = explode(',', $Names);
-			
-			if(isset($ItemFieldValue)) {
-				$isChecked = array();
+				break;
 				
-				// Convert values to keys (default keys not needed)
-				foreach($ItemFieldValue as $key => $val) {
-					$isChecked[$val] = 'true';
+			case 2:
+				$field = '<input' . ((isset($ItemFieldValue) && $ItemFieldValue !== null && $ItemFieldValue == $FieldTitle) ? ' checked ' : ' ') . 'class="' . (($Required == '1') ? $this->required['class'] : '') . '" id="' . $FieldName . '" name="' . $FieldName . '" value="' . $FieldTitle . '" type="checkbox"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' />';
+				$return = $field;
+				break;
+			
+			case 3:
+				if($Parameters == '[jtype]') {
+					$return = JHTML::_('calendar', ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : ''), $FieldName, $FieldName, '%Y-%m-%d', array('class' => 'required'));
+				} elseif($Parameters == '[btype]') {
+					$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '" id="' . $FieldName . '" name="' . $FieldName . '" type="date"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' />';
+					$return = $field;
 				}
-			}
+				break;
 			
-			$field = '<div class="qatdatabase-select-group">';
-			$field .= '<select id="' . $FieldName .  '" multiple="multiple"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' name="' . $FieldName . '[]" class="qatdatabase-options-field' . (($Required == '1') ? ' ' . $this->required['class'] : '') . '">';
-			foreach($names as $name) {
-				if(isset($isChecked[$value[$count]])) {
-					$checked = true;
-				} else {
-					$checked = false;
+			case 4:
+				$count = '0';
+				$value = explode(',', $Values);
+				$names = explode(',', $Names);
+				
+				if(isset($ItemFieldValue)) {
+					$isChecked = array();
+					
+					// Convert values to keys (default keys not needed)
+					foreach($ItemFieldValue as $key => $val) {
+						$isChecked[$val] = 'true';
+					}
 				}
-				$field .= '<option' . ((isset($checked) && $checked !== null && $checked == true) ? ' selected ' : ' ') . 'id="' . $FieldName . $count . '" value="' . $value[$count] . '">' . $name . '</option>';
-				$count++;
-			}
-			$field .= '</select>';
-			$field .= '</div>';
+				
+				$field = '<div class="qatdatabase-select-group">';
+				$field .= '<select id="' . $FieldName .  '" multiple="multiple"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' name="' . $FieldName . '[]" class="qatdatabase-options-field' . (($Required == '1') ? ' ' . $this->required['class'] : '') . '">';
+				foreach($names as $name) {
+					if(isset($isChecked[$value[$count]])) {
+						$checked = true;
+					} else {
+						$checked = false;
+					}
+					$field .= '<option' . ((isset($checked) && $checked !== null && $checked == true) ? ' selected ' : ' ') . 'id="' . $FieldName . $count . '" value="' . $value[$count] . '">' . $name . '</option>';
+					$count++;
+				}
+				$field .= '</select>';
+				$field .= '</div>';
+				
+				$return = $field;
+				break;
 			
-			$return = $field;
-		}
-		
-		if($TypeId == '5') {
-			$count = '0';
-			$value = explode(',', $Values);
-			$names = explode(',', $Names);
-			$field = '<div class="qatdatabase-select-group">';
-			$field .= '<select id="' . $FieldName . '" name="' . $FieldName . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' class="qatdatabase-option-field' . (($Required == '1') ? ' ' . $this->required['class'] : '') . '">';
-			foreach($names as $name) {
-				$field .= '<option' . ((isset($ItemFieldValue) && $ItemFieldValue !== null && $ItemFieldValue == $value[$count]) ? ' selected ' : ' ') . ' id="' . $FieldName . $count . '" value="' . $value[$count] . '">' . $name . '</option>';
-				$count++;
-			}
-			$field .= '</select>';
-			$field .= '</div>';
+			case 5:
+				$count = '0';
+				$value = explode(',', $Values);
+				$names = explode(',', $Names);
+				$field = '<div class="qatdatabase-select-group">';
+				$field .= '<select id="' . $FieldName . '" name="' . $FieldName . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' class="qatdatabase-option-field' . (($Required == '1') ? ' ' . $this->required['class'] : '') . '">';
+				foreach($names as $name) {
+					$field .= '<option' . ((isset($ItemFieldValue) && $ItemFieldValue !== null && $ItemFieldValue == $value[$count]) ? ' selected ' : ' ') . ' id="' . $FieldName . $count . '" value="' . $value[$count] . '">' . $name . '</option>';
+					$count++;
+				}
+				$field .= '</select>';
+				$field .= '</div>';
+				
+				$return = $field;
+				break;
 			
-			$return = $field;
-		}
-		
-		if($TypeId == '6') {
-			$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="email" maxlength="' . $MaxLength . '" name="' . $FieldName . '" />';
-			$return = $field;
-		}
-		
-		if($TypeId == '7') {
-			$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="number" maxlength="' . $MaxLength . '" name="' . $FieldName . '" />';
-			$return = $field;
-		}
-		
-		if($TypeId == '8') {
-			$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="number" name="' . $FieldName . '" /> <span id="' . $FieldName . 'currency" class="' . $FieldName . ' currency">' . $Parameters . '</span>';
-			$return = $field;
-		}
-		
-		if($TypeId == '9') {
-			if($Parameters == '[editor]') {
-				$editor = JFactory::getEditor();
-				$params = array('smilies' => '1', 'style' => '1', 'layer' => '0', 'table' => '0', 'clear_entities' => '0');
-				$field = $editor->display($FieldName, ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : ''), $Rows * 10, $Cols * 10, $Cols, $Rows, false, '', '', '', $params);
-			}
+			case 6:
+				$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="email" maxlength="' . $MaxLength . '" name="' . $FieldName . '" />';
+				$return = $field;
+				break;
 			
-			if($Parameters == '[textarea]') {
-				$field = '<textarea class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" rows="' . $Rows . '" cols="' . $Cols . '" name="' . $FieldName . '">' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '</textarea>';
-			}
+			case 7:
+				$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="number" maxlength="' . $MaxLength . '" name="' . $FieldName . '" />';
+				$return = $field;
+				break;
 			
-			$return = $field;
-		}
-		
-		if($TypeId == '10') {
-			$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="text" name="' . $FieldName . '" maxlength="' . $MaxLength . '" />';
-			$return = $field;
-		}
-		
-		if($TypeId == '11') {
-			$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="url" name="' . $FieldName . '" maxlength="' . $MaxLength . '" />';
-			$return = $field;
-		}
-		
-		if($TypeId == '12') {
-			$count = '0';
-			$value = explode(',', $Values);
-			$names = explode(',', $Names);
-			$field = '<div class="qatdatabase-radio-group">';
-			foreach($names as $name) {
-				$field .= '<label class="radio-item-label">' . $name . ' <input' . ((isset($ItemFieldValue) && $ItemFieldValue !== null && $ItemFieldValue == $value[$count]) ? ' checked ' : ' ') . 'type="radio" id="' . $FieldName . $count . '" name="' . $FieldName . '" value="' . $value[$count] . '" /></label>';
-				$count++;
-			}
-			$field .= '</div>';
+			case 8:
+				$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="number" name="' . $FieldName . '" /> <span id="' . $FieldName . 'currency" class="' . $FieldName . ' currency">' . $Parameters . '</span>';
+				$return = $field;
+				break;
 			
-			$return = $field;
-		}
-		
-		if($TypeId == '13') {
-			$field = '<input class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' type="file" name="' . $FieldName . '" />';
-			$return = $field;
+			case 9:
+				if($Parameters == '[editor]') {
+					$editor = JFactory::getEditor();
+					$params = array('smilies' => '1', 'style' => '1', 'layer' => '0', 'table' => '0', 'clear_entities' => '0');
+					$field = $editor->display($FieldName, ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : ''), $Rows * 10, $Cols * 10, $Cols, $Rows, false, '', '', '', $params);
+				}
+				
+				if($Parameters == '[textarea]') {
+					$field = '<textarea class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" rows="' . $Rows . '" cols="' . $Cols . '" name="' . $FieldName . '">' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '</textarea>';
+				}
+				
+				$return = $field;
+				break;
+			
+			case 10:
+				$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="text" name="' . $FieldName . '" maxlength="' . $MaxLength . '" />';
+				$return = $field;
+				break;
+			
+			case 11:
+				$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="url" name="' . $FieldName . '" maxlength="' . $MaxLength . '" />';
+				$return = $field;
+				break;
+			
+			case 12:
+				$count = '0';
+				$value = explode(',', $Values);
+				$names = explode(',', $Names);
+				$field = '<fieldset' . (($Required == '1') ? ' ' . $this->required['input'] . ' ' : ' ') . 'id="' . $FieldName . '" class="qatdatabase-radio-group radio ' . (($Required == '1') ? $this->required['class'] : '') . '">';
+				foreach($names as $name) {
+					$field .= '<label class="radio-item-label"><span>' . $name . '</span> ';
+					$field .= '<input style="float: none; margin: 0px;"' . ((isset($ItemFieldValue) && $ItemFieldValue !== null && $ItemFieldValue == $value[$count]) ? ' checked ' : ' ') . 'type="radio" id="' . $FieldName . $count . '" name="' . $FieldName . '"' . (($Required == '1') ? ' ' . $this->required['input'] . ' ' : ' ') . 'value="' . $value[$count] . '" />';
+					$field .= '</label>';
+					$count++;
+				}
+				$field .= '</fieldset>';
+				
+				$return = $field;
+				break;
+			
+			case 13:
+				$field = '<input class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' type="file" name="' . $FieldName . '" />';
+				$return = $field;
+				break;
 		}
 		
 		return $return;
@@ -354,7 +361,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 				$labellinkend = '';
 			}
 			
-			$this->required = array('text' => '*', 'class' => 'required', 'input' => 'required');
+			$this->required = array('text' => '*', 'class' => 'required', 'input' => 'required="required"');
 			
 			$return .= '<div class="control-group' . $inline . '">';
 			$return .= '<div class="control-label">';
