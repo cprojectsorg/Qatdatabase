@@ -307,10 +307,12 @@ class QatDatabaseModelItem extends JModelAdmin {
 		$return .= '</label>';
 		$return .= '</div>';
 		$return .= '<select' . $multiple . ' id="qdbcategory" required="required" class="required">';
-		$return .= '<option value="">' . JText::_('COM_QATDATABASE_FLD_SELECT_CATEGORY') . '</option>';
 		
+		// TODO: Make a server-side fields validation process.
 		if($multicat == '1') {
 			$return .= '<option ' . (($selected == '-1') ? 'selected="selected" ' : '') . 'value="-1">' . JText::_('COM_QATDATABASE_FIELD_ALL_CATEGORIES') . '</option>';
+		} else {
+			$return .= '<option value="">' . JText::_('COM_QATDATABASE_FLD_SELECT_CATEGORY') . '</option>';
 		}
 		
 		foreach($Categories as $Category) {
