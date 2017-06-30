@@ -50,4 +50,29 @@ class QatDatabaseModelItems extends JModelList {
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 		return $query;
 	}
+	
+	public function GetCategoriesNumber() {
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('id')->from('#__categories')->where('extension=\'com_qatdatabase\'');
+		$db->setQuery($query);
+		return count($db->loadObjectList());
+	}
+	
+	public function GetCategories($catsId) {
+		$db = JFactory::getDBO();
+		$cats = explode(',', $catsId);
+		ob_start();
+		foreach($cats as $cat) {
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName('title'))->from('#__categories')->where('id=\'' . $cat . '\'');
+			$db->setQuery($query);
+			$rows = $db->loadResult() . ', ';
+			echo $rows;
+		}
+		
+		// Clean ob.
+		$clean = ob_get_clean();
+		echo rtrim($clean, ', ');
+	}
 }

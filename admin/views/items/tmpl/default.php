@@ -7,7 +7,9 @@
 
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
 JHtml::_('formbehavior.chosen', 'select');
+
 $listOrder = $this->escape($this->filter_order);
 $listDirn = $this->escape($this->filter_order_Dir);
 ?>
@@ -66,7 +68,26 @@ $listDirn = $this->escape($this->filter_order_Dir);
 							<a href="<?php echo $link; ?>" class="hasTooltip" title="<?php echo JText::_('COM_QATDATABASE_ITEM_EDIT_TOOLTIP'); ?>"><?php echo JText::_('COM_QATDATABASE_ITEM_EDIT_TOOLTIP'); ?></a>
 						</td>
 						<td>
-							<?php echo $row->category_title; ?>
+							<?php
+							$explodedcats = explode(',', $row->catid);
+							if($row->catid == '-1' || strpos($row->catid, '-1') !== false || ($this->model->GetCategoriesNumber() == count($explodedcats) && $this->model->GetCategoriesNumber() > '1')) {
+								echo JText::_('COM_QATDATABASE_FIELD_ALL_CATEGORIES');
+							} else {
+								if(strpos($row->catid, ',') !== false) {
+									$count = count($explodedcats) . ' ' . JText::_('COM_QATDATABASE_FIELDS_MORE_THAN_ONE_CATEGORY') . ' <span class="fields-num-categories-small">' . JText::_('COM_QATDATABASE_OF') . ' (' . $this->model->GetCategoriesNumber() . ')</span>';
+									?>
+									<span title="<?php $this->model->GetCategories($row->catid); ?>" class="hasTooltip fields-more-one-cat"><?php echo $count; ?></span>
+									<?php
+								} else {
+									// Check if all categories option is exist in categories list.
+									if(strpos($row->catid, '-1') !== false) {
+										echo JText::_('COM_QATDATABASE_FIELD_ALL_CATEGORIES');
+									} else {
+										echo $row->category_title;
+									}
+								}
+							}
+							?>
 						</td>
 						<td align="center"><?php echo $row->id; ?></td>
 					</tr>
