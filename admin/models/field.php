@@ -203,18 +203,22 @@ class QatDatabaseModelField extends JModelAdmin {
 		$pks = (array) $pks;
 		JArrayHelper::toInteger($pks);
 		
+		$canDo = JHelperContent::getActions('com_qatdatabase');
+		
 		if(empty($pks)) {
 			$this->setError(JText::_('COM_QATDATABASE_NO_ITEM_SELECTED'));
 			return false;
 		}
 		
 		try {
-			$db = $this->getDBO();
-			
-			$query = $db->getQuery(true)->update($db->quoteName('#__qatdatabase_fields'))->set('required=' . (int) $value)->where('id IN (' . implode(',', $pks) . ')');
-			
-			$db->setQuery($query);
-			$db->execute();
+			if($canDo->get('core.edit.state')) {
+				$db = $this->getDBO();
+				
+				$query = $db->getQuery(true)->update($db->quoteName('#__qatdatabase_fields'))->set('required=' . (int) $value)->where('id IN (' . implode(',', $pks) . ')');
+				
+				$db->setQuery($query);
+				$db->execute();
+			}
 		}
 		
 		catch(Exception $e) {
@@ -229,14 +233,18 @@ class QatDatabaseModelField extends JModelAdmin {
 		$ids = (array) $ids;
 		JArrayHelper::toInteger($ids);
 		
+		$canDo = JHelperContent::getActions('com_qatdatabase');
+		
 		if(empty($ids)){
 			$this->setError(JText::_('COM_QATDATABASE_NO_FIELD_SELECTED'));
 			return false;
 		}
 		
 		try {
-			$db = $this->getDBO();
-			$db->setQuery($db->getQuery(true)->update($db->quoteName('#__qatdatabase_fields'))->set('editable=' . (int) $value)->where('id IN (' . implode(',', $ids) . ')'))->execute();
+			if($canDo->get('core.edit.state')) {
+				$db = $this->getDBO();
+				$db->setQuery($db->getQuery(true)->update($db->quoteName('#__qatdatabase_fields'))->set('editable=' . (int) $value)->where('id IN (' . implode(',', $ids) . ')'))->execute();
+			}
 		}
 		
 		catch(Exception $e) {

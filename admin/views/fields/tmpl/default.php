@@ -32,7 +32,13 @@ $listDirn = $this->escape($this->filter_order_Dir);
 				<tr>
 					<th width="1%"><?php echo JText::_('COM_QATDATABASE_NUM'); ?></th>
 					<th width="2%"><?php echo JHtml::_('grid.checkall'); ?></th>
-					<th width="5%"><?php echo JHtml::_('grid.sort', 'COM_QATDATABASE_FIELD_STATUS', 'published', $listDirn, $listOrder); ?></th>
+					<?php
+					if($this->canDo->get('core.edit.state')) {
+					?>
+						<th width="5%"><?php echo JHtml::_('grid.sort', 'COM_QATDATABASE_FIELD_STATUS', 'published', $listDirn, $listOrder); ?></th>
+					<?php
+					}
+					?>
 					<th><?php echo JHtml::_('grid.sort', 'COM_QATDATABASE_ITEM_TITLE', 'title', $listDirn, $listOrder); ?></th>
 					<th><?php echo JHtml::_('grid.sort', 'COM_QATDATABASE_FIELD_NAME_LIST', 'name', $listDirn, $listOrder); ?></th>
 					<th><?php echo JHtml::_('grid.sort', 'COM_QATDATABASE_FIELD_TYPE', 'type', $listDirn, $listOrder); ?></th>
@@ -48,29 +54,43 @@ $listDirn = $this->escape($this->filter_order_Dir);
 			<tbody>
 				<?php if(!empty($this->items)):
 				foreach($this->items as $i => $row):
-					$link = JRoute::_('index.php?option=com_qatdatabase&view=field&layout=edit&id=' . $row->id);
+					$link = JRoute::_('index.php?option=com_qatdatabase&view=fields&task=field.edit&id=' . $row->id);
 				?>
 					<tr>
 						<td><?php echo $this->pagination->getRowOffset($i); ?></td>
 						<td><?php echo JHtml::_('grid.id', $i, $row->id); ?></td>
-						<td align="center">
-							<div class="btn-group">
-								<?php echo JHtml::_('jgrid.published', $row->published, $i, 'fields.', true, 'cb', $row->publish_up, $row->publish_down); ?>
-								<?php echo JHtml::_('fields.required', $row->required, $i); ?>
-								<?php echo JHtml::_('fields.editable', $row->editable, $i); ?>
-								<?php
-								$trashed = $this->state->get('filter.trashed') == 1 ? true : false;
-								$archived = $this->state->get('filter.archived') == 1 ? true : false;
-								$menAct = $trashed ? 'unarchive' : 'archive';
-								JHtml::_('actionsdropdown.' . $menAct, 'cb' . $i, 'fields');
-								$menAct = $trashed ? 'untrash' : 'trash';
-								JHtml::_('actionsdropdown.' . $menAct, 'cb' . $i, 'fields');
-								echo JHtml::_('actionsdropdown.render', $this->escape($row->title));
-								?>
-							</div>
-						</td>
+						<?php
+						if($this->canDo->get('core.edit.state')) {
+						?>
+							<td align="center">
+								<div class="btn-group">
+									<?php echo JHtml::_('jgrid.published', $row->published, $i, 'fields.', true, 'cb', $row->publish_up, $row->publish_down); ?>
+									<?php echo JHtml::_('fields.required', $row->required, $i); ?>
+									<?php echo JHtml::_('fields.editable', $row->editable, $i); ?>
+									<?php
+									$trashed = $this->state->get('filter.trashed') == 1 ? true : false;
+									$archived = $this->state->get('filter.archived') == 1 ? true : false;
+									$menAct = $trashed ? 'unarchive' : 'archive';
+									JHtml::_('actionsdropdown.' . $menAct, 'cb' . $i, 'fields');
+									$menAct = $trashed ? 'untrash' : 'trash';
+									JHtml::_('actionsdropdown.' . $menAct, 'cb' . $i, 'fields');
+									echo JHtml::_('actionsdropdown.render', $this->escape($row->title));
+									?>
+								</div>
+							</td>
+						<?php
+						}
+						?>
 						<td>
-							<a href="<?php echo $link; ?>" class="hasTooltip" title="<?php echo JText::_('COM_QATDATABASE_FIELD_EDIT_TOOLTIP'); ?>"><?php echo $row->title; ?></a>
+							<?php
+							if($this->canDo->get('core.edit')) {
+							?>
+								<a href="<?php echo $link; ?>" class="hasTooltip" title="<?php echo JText::_('COM_QATDATABASE_FIELD_EDIT_TOOLTIP'); ?>"><?php echo $row->title; ?></a>
+							<?php
+							} else {
+								echo '<span>' . $row->title . '</span>';
+							}
+							?>
 						</td>
 						<td>
 							<?php echo $row->name; ?>

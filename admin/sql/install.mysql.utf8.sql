@@ -4,10 +4,11 @@ CREATE TABLE `#__qatdatabase_items` (
 	`title` varchar(255) NOT NULL,
 	`alias` varchar(255) NOT NULL,
 	`published` tinyint(4) NOT NULL,
+	`created_by` int(10) NOT NULL DEFAULT 0,
 	`created` datetime NOT NULL,
 	`publish_up` datetime NOT NULL,
 	`publish_down` datetime NOT NULL,
-	`catid` TEXT NOT NULL DEFAULT NULL,
+	`catid` TEXT NOT NULL,
 	`itemdata` TEXT NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

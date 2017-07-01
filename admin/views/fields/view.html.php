@@ -7,7 +7,9 @@
 
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
 jimport('joomla.application.component.view');
+
 class QatDatabaseViewFields extends JViewLegacy {
 	function display($tpl = null) {
 		$app = JFactory::getApplication();
@@ -16,6 +18,7 @@ class QatDatabaseViewFields extends JViewLegacy {
 		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
 		$this->model = $this->getModel('Fields');
+		$this->canDo = JHelperContent::getActions('com_qatdatabase');
 		$this->filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'title', 'cmd');
 		$this->filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'asc', 'cmd');
 		$this->filterForm = $this->get('FilterForm');
@@ -33,6 +36,7 @@ class QatDatabaseViewFields extends JViewLegacy {
 	
 	protected function addToolBar() {
 		$document = JFactory::getDocument();
+		$canDo = $this->canDo;
 		
 		if($this->pagination->total == '0') {
 			$total = '';
@@ -45,27 +49,35 @@ class QatDatabaseViewFields extends JViewLegacy {
 		
 		JToolBarHelper::title($title, 'database');
 		
-		JToolBarHelper::addNew('field.add');
-		JToolBarHelper::editList('field.edit');
-		JToolBarHelper::publish('fields.publish', 'JTOOLBAR_PUBLISH', true);
-		JToolBarHelper::unpublish('fields.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-		JToolBarHelper::archiveList('fields.archive');
-		
-		JToolbarHelper::custom('fields.required', 'pin red', '', 'COM_QATDATABASE_FIELD_REQUIRED', true);
-		JToolbarHelper::custom('fields.notrequired', 'pin', '', 'COM_QATDATABASE_FIELD_NOT_REQUIRED', true);
-		JToolbarHelper::custom('fields.editable', 'pencil blue', '', 'COM_QATDATABASE_FIELD_EDITABLE', true);
-		JToolbarHelper::custom('fields.noteditable', 'pencil', '', 'COM_QATDATABASE_FIELD_NOT_EDITABLE', true);
-		
-		$layout = new JLayoutFile('joomla.toolbar.batch');
-		
-		JToolbar::getInstance('toolbar')->appendButton('Custom', $layout->render(array('title' => JText::_('JTOOLBAR_BATCH'))), 'batch');
-		
-		if($this->state->get('filter.published') == -2) {
-			JToolBarHelper::deleteList('', 'fields.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} else {
-			JToolBarHelper::trash('fields.trash');
+		if($canDo->get('core.create')) {
+			JToolBarHelper::addNew('field.add');
 		}
 		
-		JToolbarHelper::preferences('com_qatdatabase');
+		JToolBarHelper::editList('field.edit');
+		
+		if($canDo->get('core.edit.state')) {
+			JToolBarHelper::publish('fields.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::unpublish('fields.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolBarHelper::archiveList('fields.archive');
+			
+			JToolbarHelper::custom('fields.required', 'pin red', '', 'COM_QATDATABASE_FIELD_REQUIRED', true);
+			JToolbarHelper::custom('fields.notrequired', 'pin', '', 'COM_QATDATABASE_FIELD_NOT_REQUIRED', true);
+			JToolbarHelper::custom('fields.editable', 'pencil blue', '', 'COM_QATDATABASE_FIELD_EDITABLE', true);
+			JToolbarHelper::custom('fields.noteditable', 'pencil', '', 'COM_QATDATABASE_FIELD_NOT_EDITABLE', true);
+			
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+			
+			JToolbar::getInstance('toolbar')->appendButton('Custom', $layout->render(array('title' => JText::_('JTOOLBAR_BATCH'))), 'batch');
+			
+			if($this->state->get('filter.published') == -2) {
+				JToolBarHelper::deleteList('', 'fields.delete', 'JTOOLBAR_EMPTY_TRASH');
+			} else {
+				JToolBarHelper::trash('fields.trash');
+			}
+		}
+		
+		if($canDo->get('core.admin')) {
+			JToolbarHelper::preferences('com_qatdatabase');
+		}
 	}
 }

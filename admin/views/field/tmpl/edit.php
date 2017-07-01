@@ -41,7 +41,7 @@ if($new == false) {
 				<div class="row-fluid">
 					<div class="span9">
 						<fieldset class="adminform">
-							<?php foreach($this->form->getFieldset() as $field):
+							<?php foreach($this->form->getFieldset() as $field) {
 								$FieldNotDenied = $field->name !== $this->FormPref . '[rows]' && $field->name !== $this->FormPref . '[cols]' && $field->name !== $this->FormPref . '[max_length]' && $field->name !== $this->FormPref . '[id]' && $field->name !== $this->FormPref . '[catid][]' && $field->name !== $this->FormPref . '[parameters]' && $field->name !== $this->FormPref . '[names]' && $field->name !== $this->FormPref . '[values]' && $field->name !== $this->FormPref . '[title]' && $field->name !== $this->FormPref . '[created]' && $field->name !== $this->FormPref . '[published]' && $field->name !== $this->FormPref . '[publish_up]' && $field->name !== $this->FormPref . '[publish_down]' ;
 								?>
 								<?php if($FieldNotDenied) { ?>
@@ -51,7 +51,7 @@ if($new == false) {
 									</div>
 								<?php
 								}
-							endforeach;
+							}
 							?>
 							<div class="paramsmain" style="<?php echo $ParamStyle; ?>">
 								<div class="field-parameter" style="margin-bottom: 18px;">

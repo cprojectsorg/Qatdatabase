@@ -18,6 +18,7 @@ class QatDatabaseViewItems extends JViewLegacy {
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
+		$this->canDo = JHelperContent::getActions('com_qatdatabase');
 		$this->filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'id', 'cmd');
 		$this->filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'asc', 'cmd');
 		$this->filterForm = $this->get('FilterForm');
@@ -34,6 +35,10 @@ class QatDatabaseViewItems extends JViewLegacy {
 	}
 	
 	protected function addToolBar() {
+		$canDo = $this->canDo;
+		$user = JFactory::getUser();
+		$userId = $user->id;
+		
 		if($this->pagination->total == '0') {
 			$total = '';
 		} else {
@@ -42,20 +47,30 @@ class QatDatabaseViewItems extends JViewLegacy {
 		
 		$title = JText::_('COM_QATDATABASE') . ': ' . JText::_('COM_QATDATABASE_ITEMS');
 		$title .= "<span style='font-size: 0.6em; font-weight: bold; vertical-align: middle;'> " . $total . "</span>";
-		JToolBarHelper::title($title, 'database');
-		JToolBarHelper::addNew('item.add');
-		JToolBarHelper::editList('item.edit');
-		JToolBarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
-		JToolBarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-		JToolBarHelper::archiveList('items.archive');
 		
-		if($this->state->get('filter.published') == -2) {
-			JToolBarHelper::deleteList('', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} else {
-			JToolBarHelper::trash('items.trash');
+		JToolBarHelper::title($title, 'database');
+		
+		if($canDo->get('core.create')) {
+			JToolBarHelper::addNew('item.add');
 		}
 		
-		JToolbarHelper::preferences('com_qatdatabase');
+		JToolBarHelper::editList('item.edit');
+		
+		if($canDo->get('core.edit.state')) {
+			JToolBarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolBarHelper::archiveList('items.archive');
+			
+			if($this->state->get('filter.published') == -2) {
+				JToolBarHelper::deleteList('', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
+			} else {
+				JToolBarHelper::trash('items.trash');
+			}
+		}
+		
+		if($canDo->get('core.admin')) {
+			JToolbarHelper::preferences('com_qatdatabase');
+		}
 	}
 }
 ?>

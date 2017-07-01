@@ -7,38 +7,30 @@
 
 defined('_JEXEC') or die;
 
-function QatDatabaseBuildRoute(&$query) {
-	$segments = array();
-	if(isset($query['view'])) {
-		$segments[] = $query['view'];
-		unset($query['view']);
+class QatdatabaseRouter extends JComponentRouterView {
+	public function __construct($app = null, $menu = null) {
+		$this->registerView(new JComponentRouterViewconfiguration('item'));
+		$this->registerView(new JComponentRouterViewconfiguration('items'));
+		$this->registerView(new JComponentRouterViewconfiguration('edit'));
+		
+		parent::__construct($app, $menu);
+		
+		$this->attachRule(new JComponentRouterRulesMenu($this));
+		$this->attachRule(new JComponentRouterRulesStandard($this));
+		$this->attachRule(new JComponentRouterRulesNomenu($this));
 	}
-	
-	if(isset($query['id'])) {
-		$segments[] = $query['id'];
-		unset($query['id']);
-	}
-	return $segments;
 }
 
-function QatDatabaseParseRoute($segments) {
-	$vars = array();
-	$count = count($segments);
+function QatdatabaseBuildRoute(&$query) {
+	$app = JFactory::getApplication();
+	$router = new QatdatabaseRouter($app, $app->getMenu());
 	
-	if($count == '1') {
-		$vars['view']   = $segments[0];
-		//$vars['id'] = $segments[1];
-	}
+	return $router->build($query);
+}
+
+function QatdatabaseParseRoute($segments) {
+	$app = JFactory::getApplication();
+	$router = new QatdatabaseRouter($app, $app->getMenu());
 	
-	if($count == '2') {
-		$vars['view']   = $segments[0];
-		$vars['id'] = $segments[1];
-	}
-	
-	if($count == '3') {
-		$vars['view']   = $segments[0];
-		$vars['id'] = $segments[2];
-	}
-	
-	return $vars;
+	return $router->parse($segments);
 }

@@ -11,12 +11,10 @@ defined('_JEXEC') or die ('Restricted access');
 class QatDatabaseViewEdit extends JViewLegacy {
 	public function display($tpl = null) {
 		$this->item = $this->get('Item');
+		$this->application = JFactory::getApplication();
 		
 		$jinput = JFactory::getApplication()->input;
 		$id = $jinput->get('id', '', 'INT');
-		if($id !== '') {
-			echo $id;
-		}
 		
 		if(count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode('<br />', $errors));

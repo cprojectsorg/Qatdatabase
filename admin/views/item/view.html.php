@@ -17,6 +17,7 @@ class QatDatabaseViewItem extends JViewLegacy {
 		$this->item = $this->get('Item');
 		$this->script = $this->get('Script');
 		$this->model = $this->getModel();
+		$this->canDo = JHelperContent::getActions('com_qatdatabase', 'item', $this->item->id);
 		
 		if(count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode('<br />', $errors));
@@ -29,6 +30,10 @@ class QatDatabaseViewItem extends JViewLegacy {
 	}
 	
 	protected function addToolBar() {
+		$canDo = $this->canDo;
+		$user = JFactory::getUser();
+		$userId = $user->id;
+		
 		$input = JFactory::getApplication()->input;
 		$input->set('hidemainmenu', true);
 		
@@ -42,9 +47,19 @@ class QatDatabaseViewItem extends JViewLegacy {
 		
 		JToolBarHelper::title($title, 'database');
 		
-		JToolBarHelper::apply('item.apply');
-		JToolBarHelper::save('item.save');
-		JToolBarHelper::cancel('item.cancel', $isNew ? 'JTOOLBAR_CANCEL':'JTOOLBAR_CLOSE');
+		if($isNew && (count($user->getAuthorisedCategories('com_qatdatabase', 'core.create')) > 0) && $canDo->get('core.create')) {
+			JToolBarHelper::apply('item.apply');
+			JToolBarHelper::save('item.save');
+			JToolBarHelper::cancel('item.cancel', 'JTOOLBAR_CANCEL');
+		} else {
+			if($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId)) {
+				JToolBarHelper::apply('item.apply');
+				JToolBarHelper::save('item.save');
+				JToolBarHelper::cancel('item.cancel', $isNew ? 'JTOOLBAR_CANCEL':'JTOOLBAR_CLOSE');
+			} else {
+				JToolBarHelper::cancel('item.cancel', 'JTOOLBAR_CLOSE');
+			}
+		}
 	}
 	
 	protected function setDocument() {

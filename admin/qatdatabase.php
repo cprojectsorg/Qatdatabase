@@ -8,6 +8,10 @@
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
 
+if(!JFactory::getUser()->authorise('core.manage', 'com_qatdatabase')) {
+	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+}
+
 // Load Joomla Bootstrap Tooltip.
 JHtml::_('bootstrap.tooltip');
 

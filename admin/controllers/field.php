@@ -7,7 +7,11 @@
 
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
+use Joomla\Utilities\ArrayHelper;
+
 jimport('joomla.application.component.controllerform');
+
 class QatDatabaseControllerField extends JControllerForm {
 	public function batch($model = null) {
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

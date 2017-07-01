@@ -38,6 +38,7 @@ class QatDatabaseViewField extends JViewLegacy {
 		} else {
 			$title = JText::_('COM_QATDATABASE') . ': ' . JText::_('COM_QATDATABASE_FIELDS') . ' - ' . JText::_('COM_QATDATABASE_FIELD_EDIT');
 		}
+		
 		JToolBarHelper::title($title, 'database');
 		JToolBarHelper::apply('field.apply');
 		JToolBarHelper::save('field.save');

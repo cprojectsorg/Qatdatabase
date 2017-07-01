@@ -34,18 +34,22 @@ class QatDatabaseModelItem extends JModelAdmin {
 	}
 	
 	public function save($data) {
+		// Check data.
+		if($data == null || $data == '') {
+			return false;
+		}
+		
 		// The fields which is not used (Like token) or has a column in `qatdatabase_items` table and is not needed to be inside the itemdata column and is automaticlly saved.
-		$exceptedFields = array('task', JSession::getFormToken(), 'id', 'alias', 'created', 'publish_up', 'publish_down', 'published', 'catid');
+		$exceptedFields = array('task', JSession::getFormToken(), 'id', 'alias', 'created_by', 'created', 'publish_up', 'publish_down', 'published', 'catid');
 		
 		// Assign each value to a key.
 		foreach($exceptedFields as $exceptedField) {
 			$exceptedFields[$exceptedField] = '';
 		}
 		
-		
-		// Check data.
-		if($data == null || $data == '') {
-			return false;
+		// Assign created by when adding a new item.
+		if($data['id'] == '0') {
+			$data['created_by'] = JFactory::getUser()->id;
 		}
 		
 		if(!isset($data['created']) || (isset($data['created']) && ($data['created'] == '' || $data['created'] == '0000-00-00 00:00:00'))) {
