@@ -157,7 +157,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 				if(isset($ItemFieldValue)) {
 					$isChecked = array();
 					
-					// Convert values to keys (default keys not needed)
+					// Convert values to keys (default keys not needed).
 					foreach($ItemFieldValue as $key => $val) {
 						$isChecked[$val] = 'true';
 					}
@@ -255,6 +255,11 @@ class QatDatabaseModelItem extends JModelAdmin {
 				$field = '<input class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' type="file" name="' . $FieldName . '" />';
 				$return = $field;
 				break;
+			
+			case 14:
+				$field = '';
+				$return = $field;
+				break;
 		}
 		
 		return $return;
@@ -273,13 +278,22 @@ class QatDatabaseModelItem extends JModelAdmin {
 		}
 	}
 	
+	public function GetCategoriesNumber() {
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('id')->from('#__categories')->where('extension=\'com_qatdatabase\'');
+		$db->setQuery($query);
+		return count($db->loadObjectList());
+	}
+	
 	protected function LoadCategoryField($selected = 0) {
 		$multicat = JComponentHelper::getParams('com_qatdatabase')->get('pcategory_type', '0');
+		$PostInAllCats = JComponentHelper::getParams('com_qatdatabase')->get('post_in_all_cats', '0');
 		
 		if($multicat == '1') {
-			$multiple = ' multiple="multiple" name="catid[]"';
+			$multiple = ' multiple="multiple" name="catid[]" onchange="categoryChange(jQuery(this).attr(\'id\'), true);"';
 		} else {
-			$multiple = ' name="catid"';
+			$multiple = ' name="catid" onchange="categoryChange(jQuery(this).attr(\'id\'));"';
 		}
 		
 		
@@ -303,7 +317,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 			$isSelected[$value] = ' selected';
 		}
 		
-		$return = '<div class="control-group">';
+		$return = '<div class="control-group qdbcategory">';
 		$return .= '<div class="control-label">';
 		$return .= '<label class="qatdatabase-label" for="qdbcategory">';
 		$return .= '<h4 class="qatdatabase-ilheading">' . JText::_('COM_QATDATABASE_FLD_SELECT_CATEGORY_LABEL') . ': </h4>';
@@ -314,7 +328,9 @@ class QatDatabaseModelItem extends JModelAdmin {
 		
 		// TODO: Set up the server-side fields validation process.
 		if($multicat == '1') {
-			$return .= '<option ' . (($selected == '-1') ? 'selected="selected" ' : '') . 'value="-1">' . JText::_('COM_QATDATABASE_FIELD_ALL_CATEGORIES') . '</option>';
+			if($PostInAllCats == '1') {
+				$return .= '<option ' . (($selected == '-1') ? 'selected="selected" ' : '') . 'value="-1">' . JText::_('COM_QATDATABASE_FIELD_ALL_CATEGORIES') . '</option>';
+			}
 		} else {
 			$return .= '<option value="">' . JText::_('COM_QATDATABASE_FLD_SELECT_CATEGORY') . '</option>';
 		}
@@ -402,7 +418,21 @@ class QatDatabaseModelItem extends JModelAdmin {
 			
 			$this->required = array('text' => '*', 'class' => 'required', 'input' => 'required="required"');
 			
-			$return .= '<div class="control-group' . $inline . '">';
+			// Get categories number.
+			$Incats = count(explode(',', $field->catid));
+			
+			// Check if categories number equals all categories.
+			if($this->GetCategoriesNumber() == $Incats) {
+				$cats = '-1';
+			} else {
+				if($field->catid == '-1') {
+					$cats = '-1';
+				} else {
+					$cats = $field->catid;
+				}
+			}
+			
+			$return .= '<div style="' . (($cats !== '-1') ? 'display: none;' : '') . '" in-cats-array="' . $cats . '" class="field categorydepends control-group' . $inline . '">';
 			$return .= '<div class="control-label">';
 			$return .= '<label class="qatdatabase-label' . $forClass . '"' . $forLabel . '><h4 class="qatdatabase-ilheading">' . $labellink . $field->title . $labellinkend . ': </h4>' . (($field->required == '1') ? '<span class="qatdatabase-required-star">' . $this->required['text'] . '</span> ' : '') . $FieldDesc . '</label>';
 			$return .= '</div>';

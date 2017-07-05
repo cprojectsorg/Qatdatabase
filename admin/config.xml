@@ -27,8 +27,8 @@
 			label="COM_QATDATABASE_CONFIGURATION_GENERAL_DISPLAY_SHARE_ICONS"
 			description="COM_QATDATABASE_CONFIGURATION_GENERAL_DISPLAY_SHARE_ICONS_DESC"
 			default="1">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 		</field>
 		
 		<field
@@ -38,8 +38,8 @@
 			label="COM_QATDATABASE_CONFIGURATION_GENERAL_DISPLAY_SHARE_FAVOURITE_ICON"
 			description="COM_QATDATABASE_CONFIGURATION_GENERAL_DISPLAY_SHARE_FAVOURITE_ICON"
 			default="1">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 		</field>
 		
 		<field
@@ -49,8 +49,19 @@
 			label="COM_QATDATABASE_CONFIGURATION_GENERAL_CATEGORY_OPTIONS"
 			description="COM_QATDATABASE_CONFIGURATION_GENERAL_CATEGORY_OPTIONS"
 			default="0">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+		</field>
+		<field
+			name="post_in_all_cats"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			showon="pcategory_type:1"
+			label="COM_QATDATABASE_CONFIGURATION_GENERAL_POST_IN_ALL_CATEGORIES"
+			description="COM_QATDATABASE_CONFIGURATION_GENERAL_POST_IN_ALL_CATEGORIES"
+			default="0">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 		</field>
 	</fieldset>
 	<fieldset

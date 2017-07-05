@@ -92,7 +92,7 @@ class QatDatabaseModelFields extends JModelList {
 	}
 	
 	public function GetFieldType($num) {
-		$array = array('1' => 'Check Box (Multiple)', '2' => 'Check Box (Single)', '3' => 'Date', '4' => 'Drop Down (Multiple Selection)', '5' => 'Drop Down (Single Selection)', '6' => 'Email address', '7' => 'Number text', '8' => 'Price field', '9' => 'Text area or editor', '10' => 'Text Field', '11' => 'URL (Link)', '12' => 'Radio', '13' => 'File');
+		$array = array('1' => 'Check Box (Multiple)', '2' => 'Check Box (Single)', '3' => 'Date', '4' => 'Drop Down (Multiple Selection)', '5' => 'Drop Down (Single Selection)', '6' => 'Email address', '7' => 'Number text', '8' => 'Price field', '9' => 'Text area or editor', '10' => 'Text Field', '11' => 'URL (Link)', '12' => 'Radio', '13' => 'File', '14' => 'Image');
 		return $array[$num];
 	}
 }

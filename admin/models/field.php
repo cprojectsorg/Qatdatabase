@@ -196,6 +196,9 @@ class QatDatabaseModelField extends JModelAdmin {
 			
 			case 13:
 				break;
+				
+			case 14:
+				break;
 		}
 	}
 	
