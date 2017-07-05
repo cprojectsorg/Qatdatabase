@@ -432,7 +432,28 @@ class QatDatabaseModelItem extends JModelAdmin {
 				}
 			}
 			
-			$return .= '<div style="' . (($cats !== '-1') ? 'display: none;' : '') . '" in-cats-array="' . $cats . '" class="field categorydepends control-group' . $inline . '">';
+			if($cats == '-1' || $this->getItem()->catid == '-1') {
+				$display = 'display: block;';
+			} else {
+				$displayCount = 0;
+				
+				// Check if any of the field's categories is selected.
+				foreach(explode(',', $this->getItem()->catid) as $cat) {
+					// Break the loop if any of the field's categories is selected.
+					if($cat !== '' && strpos($cats, $cat) !== false) {
+						$displayCount++;
+						break;
+					}
+				}
+				
+				if($displayCount > 0) {
+					$display = 'display: block;';
+				} else {
+					$display = 'display: none;';
+				}
+			}
+			
+			$return .= '<div style="' . $display . '" in-cats-array="' . $cats . '" class="field categorydepends control-group' . $inline . '">';
 			$return .= '<div class="control-label">';
 			$return .= '<label class="qatdatabase-label' . $forClass . '"' . $forLabel . '><h4 class="qatdatabase-ilheading">' . $labellink . $field->title . $labellinkend . ': </h4>' . (($field->required == '1') ? '<span class="qatdatabase-required-star">' . $this->required['text'] . '</span> ' : '') . $FieldDesc . '</label>';
 			$return .= '</div>';
