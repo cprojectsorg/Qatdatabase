@@ -142,7 +142,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 			
 			case 3:
 				if($Parameters == '[jtype]') {
-					$return = JHTML::_('calendar', ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : ''), $FieldName, $FieldName, '%Y-%m-%d', array('class' => 'required'));
+					$return = JHTML::_('calendar', ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : ''), $FieldName, $FieldName, '%Y-%m-%d', array('class' => $this->required['class']));
 				} elseif($Parameters == '[btype]') {
 					$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '" id="' . $FieldName . '" name="' . $FieldName . '" type="date"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' />';
 					$return = $field;
@@ -453,7 +453,13 @@ class QatDatabaseModelItem extends JModelAdmin {
 				}
 			}
 			
-			$return .= '<div style="' . $display . '" in-cats-array="' . $cats . '" class="field categorydepends control-group' . $inline . '">';
+			// Override the 'input' and 'class' from the $this->required array if the input is hidden so it is not required.
+			if($display == 'display: none;') {
+				$this->required['class'] = 'req';
+				$this->required['input'] = 'req="1"';
+			}
+			
+			$return .= '<div style="' . $display . '" in-cats-array="' . $cats . '" class="field field-' . $field->name . ' categorydepends control-group' . $inline . '">';
 			$return .= '<div class="control-label">';
 			$return .= '<label class="qatdatabase-label' . $forClass . '"' . $forLabel . '><h4 class="qatdatabase-ilheading">' . $labellink . $field->title . $labellinkend . ': </h4>' . (($field->required == '1') ? '<span class="qatdatabase-required-star">' . $this->required['text'] . '</span> ' : '') . $FieldDesc . '</label>';
 			$return .= '</div>';
