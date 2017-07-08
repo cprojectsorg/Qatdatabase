@@ -35,8 +35,31 @@ function SetFields(category, multi = false) {
 						jQuery(this).css('display', 'block');
 						Required(e);
 					} else {
-						jQuery(this).css('display', 'none');
-						Required(e, false);
+						if(InCats.indexOf(',') == '-1') {
+							jQuery(this).css('display', 'none');
+							Required(e, false);
+						} else {
+							count = 0;
+							jQuery(InCats.split(',')).each(function(index, value) {
+								if(category.indexOf(value) == '-1') {
+									// Continue 'each' loop.
+									return true;
+								} else {
+									count++;
+									
+									// Break 'each' loop.
+									return false;
+								}
+							});
+							
+							if(count == 0) {
+								jQuery(this).css('display', 'none');
+								Required(e, false);
+							} else {
+								jQuery(this).css('display', 'block');
+								Required(e);
+							}
+						}
 					}
 				} else {
 					jQuery(this).css('display', 'block');
@@ -52,7 +75,7 @@ function SetFields(category, multi = false) {
 				jQuery(element).css('display', 'block');
 				Required(element);
 			} else {
-				if(jQuery.inArray(category, [InCats]) == '-1') {
+				if(jQuery.inArray(category, InCats.split(',')) == '-1') {
 					jQuery(element).css('display', 'none');
 					Required(element, false);
 				} else {
