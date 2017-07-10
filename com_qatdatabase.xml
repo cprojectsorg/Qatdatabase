@@ -27,7 +27,6 @@
 	</update>
 	
 	<files folder="site">
-		<filename>index.html</filename>
 		<filename>qatdatabase.php</filename>
 		<filename>controller.php</filename>
 		<filename>router.php</filename>
@@ -51,7 +50,6 @@
 			<menu link="option=com_categories&amp;extension=com_qatdatabase">COM_QATDATABASE_ITEMS_CATEGORIES</menu>
 		</submenu>
 		<files folder="admin">
-			<filename>index.html</filename>
 			<filename>qatdatabase.php</filename>
 			<filename>controller.php</filename>
 			<filename>access.xml</filename>
@@ -73,7 +71,6 @@
 	</administration>
 	
 	<media destination="com_qatdatabase" folder="media">
-		<filename>index.html</filename>
 		<folder>images</folder>
 	</media>
 </extension>
