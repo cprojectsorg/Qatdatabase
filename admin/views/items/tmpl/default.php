@@ -38,7 +38,7 @@ $listDirn = $this->escape($this->filter_order_Dir);
 					<?php
 					}
 					?>
-					<th><?php echo JHtml::_('grid.sort', 'COM_QATDATABASE_ITEM_TITLE', 'title', $listDirn, $listOrder); ?></th>
+					<th><?php echo JText::_('COM_QATDATABASE_ITEM_EDIT_TOOLTIP'); ?></th>
 					<th><?php echo JHtml::_('grid.sort', 'COM_QATDATABASE_ITEM_CATEGORY', 'catid', $listDirn, $listOrder); ?></th>
 					<th><?php echo JHtml::_('grid.sort', 'COM_QATDATABASE_ID', 'id', $listDirn, $listOrder); ?></th>
 				</tr>

@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('Restricted access');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 ?>
-<form class="form-validate" action="<?php echo JRoute::_('index.php?option=com_qatdatabase&id=' . (int) $this->item->id); ?>" method="post">
+<form class="form-validate" action="<?php echo JRoute::_('index.php?option=com_qatdatabase&id=' . (int) $this->item->id); ?>" method="post" enctype="multipart/form-data">
 <?php
 $Model = $this->getModel();
 echo $Model->LoadFields();
