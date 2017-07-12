@@ -8,6 +8,11 @@
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
 
+// Check if DS is already defined.
+if(!defined('DS')) {
+	define('DS', DIRECTORY_SEPARATOR);
+}
+
 if(!JFactory::getUser()->authorise('core.manage', 'com_qatdatabase')) {
 	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }

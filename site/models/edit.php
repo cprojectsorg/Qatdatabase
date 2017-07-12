@@ -8,7 +8,7 @@
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
 
-JLoader::register('QatDatabaseModelItem', JPATH_ADMINISTRATOR . '/components/com_qatdatabase/models/item.php');
+JLoader::register('QatDatabaseModelItem', JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_qatdatabase' . DS . 'models' . DS . 'item.php');
 
 class QatDatabaseModelEdit extends QatDatabaseModelItem {
 	
