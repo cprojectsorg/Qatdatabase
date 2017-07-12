@@ -25,6 +25,12 @@
 		/>
 		
 		<field
+			name="max_file_size"
+			type="hidden"
+			multiple="true"
+		/>
+		
+		<field
 			name="max_length"
 			type="hidden"
 		/>

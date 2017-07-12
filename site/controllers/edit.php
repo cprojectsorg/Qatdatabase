@@ -10,7 +10,7 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.controllerform');
 
-JLoader::register('QatDatabaseControllerItem', JPATH_ADMINISTRATOR . '/components/com_qatdatabase/controllers/item.php');
+JLoader::register('QatDatabaseControllerItem', JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_qatdatabase' . DS . 'controllers' . DS . 'item.php');
 
 class QatDatabaseControllerEdit extends QatDatabaseControllerItem {
 	public function getModel($name = 'Edit', $prefix = '', $config = array('ignore_request' => true)) {

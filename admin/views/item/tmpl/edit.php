@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('Restricted access');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_qatdatabase&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_qatdatabase&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'contentsTab', array('active' => 'contentTab')); ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'contentsTab', 'contentTab', JText::_('COM_QATDATABASE_TAB_ITEM_CONTENTS', true)); ?>

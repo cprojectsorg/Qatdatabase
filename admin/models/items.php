@@ -54,7 +54,7 @@ class QatDatabaseModelItems extends JModelList {
 	public function GetCategoriesNumber() {
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select('id')->from('#__categories')->where('extension=\'com_qatdatabase\'');
+		$query->select('id')->from('#__categories')->where('extension=\'com_qatdatabase\' AND published=\'1\'');
 		$db->setQuery($query);
 		return count($db->loadObjectList());
 	}
@@ -63,9 +63,10 @@ class QatDatabaseModelItems extends JModelList {
 		$db = JFactory::getDBO();
 		$cats = explode(',', $catsId);
 		ob_start();
+		
 		foreach($cats as $cat) {
 			$query = $db->getQuery(true);
-			$query->select($db->quoteName('title'))->from('#__categories')->where('id=\'' . $cat . '\'');
+			$query->select($db->quoteName('title'))->from('#__categories')->where('id=\'' . $cat . '\' AND published=\'1\'');
 			$db->setQuery($query);
 			$rows = $db->loadResult() . ', ';
 			echo $rows;

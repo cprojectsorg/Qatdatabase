@@ -33,6 +33,30 @@ class QatDatabaseModelItem extends JModelAdmin {
 		return $item->get('id');
 	}
 	
+	protected function getFilefield($field = null, $request = null) {
+		if($field == null) {
+			return false;
+		}
+		
+		$db = JFactory::getDBO();
+		
+		$query = $db->getQuery(true);
+		$query->select('*')->from($db->quoteName('#__qatdatabase_fields'))->where('name=\'' . $field . '\'');
+		
+		$db->setQuery($query);
+		$fieldCol = $db->loadObjectList();
+		
+		switch($request) {
+			case null:
+				return false;
+				break;
+			
+			case 'extension':
+				return $fieldCol[0]->parameters;
+				break;
+		}
+	}
+	
 	public function save($data) {
 		// Check data.
 		if($data == null || $data == '') {
@@ -74,17 +98,86 @@ class QatDatabaseModelItem extends JModelAdmin {
 			}
 		}
 		
-		// Assign all unassigned data to the itemdata column.
-		$data['itemdata'] = json_encode($unassignedData);
-		
 		// Check if all categories selected.
-		if(in_array('-1', $data['catid'])) {
+		if(is_array($data['catid']) && in_array('-1', $data['catid'])) {
 			$data['catid'] = '-1';
 		} else {
 			if(is_array($data['catid'])) {
 				$data['catid'] = implode(',', $data['catid']);
 			}
 		}
+		
+		// Files uploading.
+		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
+		
+		foreach($_FILES as $Key => $File) {
+			if($File['name'] !== '' && $File['tmp_name'] !== '') {
+				// Get field name.
+				$Field = substr($Key, 0, -5);
+				$Filename = $File['name'];
+				$Source = $File['tmp_name'];
+				
+				// Destenation after upload: uploads/FIELD_NAME/
+				$DestenationDir = JPATH_ROOT . DS . 'media' . DS . 'com_qatdatabase' . DS . 'uploads' . DS . $Field;
+				
+				// New file name: FIELD-NAME_TIME
+				$newFilename = $Field . '_' . time() . '.' . JFile::getExt($Filename);
+				
+				$Destenation = $DestenationDir . DS . $newFilename;
+				
+				// Check if the destination directory exist.
+				if(!JFolder::exists($DestenationDir)) {
+					if(!JFolder::create($DestenationDir)) {
+						return false;
+					}
+				}
+				
+				// If adding new item.
+				if((int) $this->getItem()->id == 0) {
+					$upload = true;
+				} else {
+					// If editing an item, check if the item has an uploaded file already.
+					if(isset($this->getItem()->itemdata->$Field) && $this->getItem()->itemdata->$Field !== '') {
+						$newFilename = $this->getItem()->itemdata->$Field;
+						$Destenation = $DestenationDir . DS . $newFilename;
+						
+						if(JFile::exists($Destenation)) {
+							if(JFile::delete($Destenation)) {
+								$upload = true;
+							} else {
+								$upload = false;
+							}
+						} else {
+							$upload = true;
+						}
+					} else {
+						$upload = false;
+					}
+				}
+				
+				if($upload == true) {
+					// Check if the extension matches the allowed extension.
+					if(strtolower(JFile::getExt($Filename)) == $this->getFilefield($Field, 'extension')) {
+						if(JFile::exists($Destenation)) {
+							return false;
+						} else {
+							if(!JFile::upload($Source, $Destenation)) {
+								return false;
+							}
+						}
+					} else {
+						return false;
+					}
+				}
+				
+				// Assign file field name without '_file' (The last five letters) to unassignedData array.
+				$unassignedData[$Field] = $newFilename;
+			}
+		}
+		
+		// Assign all unassigned data to the itemdata column.
+		$data['itemdata'] = json_encode($unassignedData);
 		
 		if(parent::save($data)) {
 			return true;
@@ -93,7 +186,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 		return false;
 	}
 	
-	protected function RenderField($TypeId, $FieldTitle, $FieldName, $Names = null, $Values = null, $Rows = null, $Cols = null, $Parameters = null, $MaxLength = null, $Required = '0', $value = '') {
+	protected function RenderField($TypeId, $FieldTitle, $FieldName, $Names = null, $Values = null, $Rows = null, $Cols = null, $Parameters = null, $MaxLength = null, $Required = '0') {
 		if($this->getItem()->id == '0') {
 			$ItemFieldValue = null;
 		} else {
@@ -252,7 +345,25 @@ class QatDatabaseModelItem extends JModelAdmin {
 				break;
 			
 			case 13:
-				$field = '<input class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' type="file" name="' . $FieldName . '" />';
+				$field = '';
+				
+				$HasFile = false;
+				
+				if(isset($ItemFieldValue) && $ItemFieldValue !== '') {
+					jimport('joomla.filesystem.file');
+					
+					$file = JPATH_ROOT . DS . 'media' . DS . 'com_qatdatabase' . DS . 'uploads' . DS . $FieldName . DS . $ItemFieldValue;
+					
+					if(JFile::exists($file)) {
+						$File = JUri::base(true) . DS . 'media' . DS . 'com_qatdatabase' . DS . 'uploads' . DS . $FieldName . DS . $ItemFieldValue;
+						$field .= '<a href="' . str_replace('/administrator', '', $File) . '" target="_blank">' . $ItemFieldValue . '</a><br />';
+						$field .= '<input id="' . $FieldName . '" type="hidden" name="' . $FieldName . '" value="' . $ItemFieldValue . '" />';
+						
+						$HasFile = true;
+					}
+				}
+				
+				$field .= '<input id="' . $FieldName . '_file" class="' . (($Required == '1' && $this->getItem()->id == '0' || ($HasFile == false && $Required == '1')) ? $this->required['class'] : '') . '"' . (($Required == '1' && $this->getItem()->id == '0' || ($HasFile == false && $Required == '1')) ? ' ' . $this->required['input'] : '') . ' type="file" name="' . $FieldName . '_file" />';
 				$return = $field;
 				break;
 			
@@ -281,7 +392,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 	public function GetCategoriesNumber() {
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select('id')->from('#__categories')->where('extension=\'com_qatdatabase\'');
+		$query->select('id')->from('#__categories')->where('extension=\'com_qatdatabase\' AND published=\'1\'');
 		$db->setQuery($query);
 		return count($db->loadObjectList());
 	}
@@ -296,21 +407,19 @@ class QatDatabaseModelItem extends JModelAdmin {
 			$multiple = ' name="catid" onchange="categoryChange(jQuery(this).attr(\'id\'));"';
 		}
 		
-		
 		$SelectedCats = explode(',', $selected);
 		$isSelected = array();
 		
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select('*')->from('#__categories')->where('extension=\'com_qatdatabase\'');
+		$query->select('*')->from('#__categories')->where('extension=\'com_qatdatabase\' AND published=\'1\'');
 		$db->setQuery($query);
 		$Categories = $db->loadObjectList();
 		
-		if(count($SelectedCats) >= count($Categories)) {
-			$selected = '-1';
-			$nocheck = true;
-		} else {
-			$nocheck = false;
+		if($multicat == '1') {
+			if(count($SelectedCats) == count($Categories)) {
+				$selected = '-1';
+			}
 		}
 		
 		foreach($SelectedCats as $selectedCat => $value) {
@@ -336,7 +445,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 		}
 		
 		foreach($Categories as $Category) {
-			if(isset($isSelected[$Category->id]) && $nocheck == false) {
+			if(isset($isSelected[$Category->id]) && $selected !== '-1') {
 				$Selected = ' selected="selected"';
 			} else {
 				$Selected = '';
@@ -393,7 +502,15 @@ class QatDatabaseModelItem extends JModelAdmin {
 		$loadQuery = $db->loadObjectList();
 		
 		foreach($loadQuery as $field) {
-			$forLabel = ' for="' . $field->name . '"';
+			$this->required = array('text' => '*', 'class' => 'required', 'input' => 'required="required"');
+			
+			// If a file input
+			if($field->type == '13') {
+				$forLabel = ' for="' . $field->name . '_file"';
+			} else {
+				$forLabel = ' for="' . $field->name . '"';
+			}
+			
 			$forClass = '';
 			
 			if($field->type == '2') {
@@ -415,8 +532,6 @@ class QatDatabaseModelItem extends JModelAdmin {
 				$labellink = '';
 				$labellinkend = '';
 			}
-			
-			$this->required = array('text' => '*', 'class' => 'required', 'input' => 'required="required"');
 			
 			// Get categories number.
 			$Incats = count(explode(',', $field->catid));
@@ -453,7 +568,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 				}
 			}
 			
-			// Override the 'input' and 'class' from the $this->required array if the input is hidden so it is not required.
+			// Override the 'input' and 'class' from $this->required array if the input is hidden so it is not required.
 			if($display == 'display: none;') {
 				$this->required['class'] = 'req';
 				$this->required['input'] = 'req="1"';

@@ -32,7 +32,7 @@ CREATE TABLE `#__qatdatabase_fields` (
 	`values` text NOT NULL,
 	`rows` int(11) NOT NULL,
 	`cols` int(11) NOT NULL,
-	`ordering` int(11) NOT NULL,
+	`max_file_size` int(11) NOT NULL,
 	`parameters` text NOT NULL,
 	`max_length` int(11) NOT NULL,
 	PRIMARY KEY (`id`)

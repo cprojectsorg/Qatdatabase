@@ -75,7 +75,7 @@ class QatDatabaseModelField extends JModelAdmin {
 				}
 				return $return;
 				break;
-		
+			
 			case 2:
 				break;
 			
@@ -195,6 +195,9 @@ class QatDatabaseModelField extends JModelAdmin {
 				break;
 			
 			case 13:
+				$return = '<div class="control-group"><label>' . JText::_('COM_QATDATABASE_FIELD_FILE_MAX_FILE_SIZE') . ': <input value="' . ((isset($data->max_file_size) && $data->max_file_size !== '0') ? $data->max_file_size : '') . '" type="number" name="jform[max_file_size]" /></label></div>';
+				$return .= '<div class="control-group"><label>' . JText::_('COM_QATDATABASE_FIELD_FILE_ALLOWED_EXTENSION') . ': <input value="' . ((isset($data->parameters)) ? $data->parameters : '') . '" type="text" name="jform[parameters]" /></label></div>';
+				return $return;
 				break;
 				
 			case 14:
@@ -268,7 +271,7 @@ class QatDatabaseModelField extends JModelAdmin {
 		}
 		
 		if(parent::save($data)) {
-			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_qatdatabase/models', 'QatDatabaseModel');
+			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_qatdatabase' . DS . 'models', 'QatDatabaseModel');
 			$layoutModel = JModelLegacy::getInstance('Layout', 'QatDatabaseModel');
 			$layoutModel->CheckTheNewFields();
 			return true;
