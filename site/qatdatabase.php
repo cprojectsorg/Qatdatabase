@@ -7,6 +7,7 @@
 
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
 jimport('joomla.application.component.controller');
 
 // Check if DS is already defined.
@@ -15,7 +16,7 @@ if(!defined('DS')) {
 }
 
 $document = JFactory::getDocument();
-$document->addStyleSheet('components/com_qatdatabase/css/style.css', 'text/css', 'screen');
+$document->addStyleSheet('components' . DS . 'com_qatdatabase' . DS . 'css' . DS . 'style.css', 'text/css', 'screen');
 
 $controller = JControllerLegacy::getInstance('QatDatabase');
 $controller->execute(JFactory::getApplication()->input->getCmd('task'));

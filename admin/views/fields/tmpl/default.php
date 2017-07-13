@@ -8,7 +8,7 @@
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . DS . 'helpers' . DS . 'html');
 
 JHtml::_('formbehavior.chosen', 'select');
 $listOrder = $this->escape($this->filter_order);

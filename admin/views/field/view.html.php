@@ -7,6 +7,7 @@
 
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
 jimport('joomla.application.component.view');
 
 class QatDatabaseViewField extends JViewLegacy {
@@ -49,7 +50,7 @@ class QatDatabaseViewField extends JViewLegacy {
 	protected function setDocument() {
 		$document = JFactory::getDocument();
 		$document->addScript(JURI::root() . $this->script);
-		$document->addScript(JURI::root() . "/administrator/components/com_qatdatabase/views/field/submitbutton.js");
+		$document->addScript(JURI::root() . DS . "administrator" . DS . "components" . DS . "com_qatdatabase" . DS . "views" . DS . "field" . DS . "submitbutton.js");
 		
 		JText::script('COM_QATDATABASE_TYPE');
 		

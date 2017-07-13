@@ -7,7 +7,9 @@
 
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
 jimport('joomla.application.component.modellist');
+
 class QatDatabaseModelItems extends JModelList {
 	public function __construct($config = array()) {
 		if(empty($config['filter_fields'])) {

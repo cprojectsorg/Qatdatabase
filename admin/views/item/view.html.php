@@ -65,8 +65,8 @@ class QatDatabaseViewItem extends JViewLegacy {
 	protected function setDocument() {
 		$document = JFactory::getDocument();
 		$document->addScript(JURI::root() . $this->script);
-		$document->addScript(JURI::root() . "/administrator/components/com_qatdatabase/views/item/submitbutton.js");
-		$document->addScript(JURI::root() . "/administrator/components/com_qatdatabase/views/item/item.js");
+		$document->addScript(JURI::root() . DS . "administrator" . DS . "components" . DS . "com_qatdatabase" . DS . "views" . DS . "item" . DS . "submitbutton.js");
+		$document->addScript(JURI::root() . DS . "administrator" . DS . "components" . DS . "com_qatdatabase" . DS . "views" . DS . "item" . DS . "item.js");
 		
 		JText::script('COM_QATDATABASE_ERROR_ITEM_FIELD_ERROR');
 	}

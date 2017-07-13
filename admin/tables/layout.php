@@ -7,6 +7,7 @@
 
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
 jimport('joomla.database.table');
 
 class QatDatabaseTableLayout extends JTable {

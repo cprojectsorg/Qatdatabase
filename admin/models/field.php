@@ -25,7 +25,7 @@ class QatDatabaseModelField extends JModelAdmin {
 	}
 	
 	public function getScript() {
-		return 'administrator/components/com_qatdatabase/models/forms/field.js';
+		return 'administrator' . DS . 'components' . DS . 'com_qatdatabase' . DS . 'models' . DS . 'forms' . DS . 'field.js';
 	}
 	
 	protected function loadFormData() {

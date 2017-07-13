@@ -6,6 +6,7 @@
  */
 
 defined('_JEXEC') or die;
+
 class QatDatabaseHelper extends JHelperContent {
 	public static $extension = 'com_qatdatabase';
 	public static function addSubmenu($vName) {
@@ -17,7 +18,7 @@ class QatDatabaseHelper extends JHelperContent {
 }
 
 function getFooter() {
-	$xml = JFactory::getXML(JPATH_SITE . '/administrator/components/com_qatdatabase/com_qatdatabase.xml');
+	$xml = JFactory::getXML(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_qatdatabase' . DS . 'com_qatdatabase.xml');
 	$version = (string) $xml->version;
 	
 	echo "<div><div style=\"text-align: center; font-style: italic;\">" . JText::_('COM_QATDATABASE') . ", " . JText::_('COM_QATDATABASE_VERSION_TEXT') . ": <span style=\"font-weight: bold;\">" . $version . "</span>";

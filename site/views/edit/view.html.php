@@ -28,6 +28,6 @@ class QatDatabaseViewEdit extends JViewLegacy {
 	
 	protected function setDocument() {
 		$document = JFactory::getDocument();
-		$document->addScript(JURI::root() . "/components/com_qatdatabase/views/edit/edit.js");
+		$document->addScript(JURI::root() . DS . "components" . DS . "com_qatdatabase" . DS . "views" . DS . "edit" . DS . "edit.js");
 	}
 }

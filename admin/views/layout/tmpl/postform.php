@@ -7,7 +7,6 @@
 
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
-
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_qatdatabase&view=layout&layout=postform'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">

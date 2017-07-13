@@ -7,12 +7,14 @@
 
 // No direct access to this file
 defined('_JEXEC') or die ('Restricted access');
+
 jimport('joomla.application.component.controlleradmin');
+
 class QatDatabaseControllerFields extends JControllerAdmin {
 	public function __construct($config = array()) {
 		parent::__construct($config);
 		
-		// Merge functions.
+		// Merge tasks.
 		$this->registerTask('notrequired', 'required');
 		$this->registerTask('noteditable', 'editable');
 	}

@@ -21,7 +21,7 @@ if(!JFactory::getUser()->authorise('core.manage', 'com_qatdatabase')) {
 JHtml::_('bootstrap.tooltip');
 
 // Load Component's CSS file.
-JFactory::getDocument()->addStyleSheet(JURI::base(true) . '/components/com_qatdatabase/css/qatdatabase.css');
+JFactory::getDocument()->addStyleSheet(JURI::base(true) . DS . 'components' . DS . 'com_qatdatabase' . DS . 'css' . DS . 'qatdatabase.css');
 
 $controller = JControllerLegacy::getInstance('QatDatabase');
 $controller->execute(JFactory::getApplication()->input->getCmd('task'));
