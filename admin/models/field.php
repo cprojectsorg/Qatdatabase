@@ -276,6 +276,11 @@ class QatDatabaseModelField extends JModelAdmin {
 	}
 	
 	public function save($data) {
+		// Check if the field name starts with 'fld_' (first four letters).
+		if(($data['name'][0] . $data['name'][1] . $data['name'][2] . $data['name'][3] !== 'fld_')) {
+			$data['name'] = 'fld_' . $data['name'];
+		}
+		
 		// Check if the field name is already exist.
 		if($this->FieldCheck($data['id'], $data['name']) == false) {
 			$msg = JText::_('COM_QATDATABASE_FIELDS_NAME_EXIST');
