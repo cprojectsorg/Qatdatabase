@@ -1,9 +1,21 @@
 function categoryChange(id, multi = false) {
+	var Element = jQuery('#' + id);
+	var MaxCats = Element.attr('max-cats');
+	
 	if(multi == true) {
 		var category = '';
 	}
 	
-	jQuery("#" + id + " option:selected").each(function() {
+	// Check how many categories selected.
+	if(multi == true && MaxCats !== 0) {
+		// If exceeded the maximum limit unselect the last selected category/categories.
+		if(jQuery('#' + id + ' option:selected').length > MaxCats) {
+			Value = Element.val().slice(0, MaxCats);
+			Element.val(Value);
+		}
+	}
+	
+	jQuery('#' + id + ' option:selected').each(function() {
 		if(multi == true) {
 			category += jQuery(this).val() + ',';
 		} else {
