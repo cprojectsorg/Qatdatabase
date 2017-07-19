@@ -43,26 +43,12 @@
 		</field>
 		
 		<field
-			name="pcategory_type"
-			type="radio"
-			class="btn-group btn-group-yesno"
-			label="COM_QATDATABASE_CONFIGURATION_GENERAL_CATEGORY_OPTIONS"
-			description="COM_QATDATABASE_CONFIGURATION_GENERAL_CATEGORY_OPTIONS"
-			default="0">
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-		</field>
-		<field
-			name="post_in_all_cats"
-			type="radio"
-			class="btn-group btn-group-yesno"
-			showon="pcategory_type:1"
-			label="COM_QATDATABASE_CONFIGURATION_GENERAL_POST_IN_ALL_CATEGORIES"
-			description="COM_QATDATABASE_CONFIGURATION_GENERAL_POST_IN_ALL_CATEGORIES"
-			default="0">
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-		</field>
+			name="cats_number"
+			type="number"
+			label="COM_QATDATABASE_CONFIGURATION_GENERAL_CATEGORIES_NUMBER"
+			description="COM_QATDATABASE_CONFIGURATION_GENERAL_CATEGORIES_NUMBER_DESC"
+			default="1"
+		/>
 	</fieldset>
 	<fieldset
 		name="permissions"

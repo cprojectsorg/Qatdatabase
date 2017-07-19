@@ -11,6 +11,15 @@ defined('_JEXEC') or die ('Restricted access');
 jimport('joomla.application.component.modeladmin');
 
 class QatDatabaseModelItem extends JModelAdmin {
+	protected $Settings;
+	
+	public function __construct() {
+		// Load component settings.
+		$this->Settings = JComponentHelper::getParams('com_qatdatabase');
+		
+		return parent::__construct();
+	}
+	
 	public function getTable($type = 'Item', $prefix = 'QatdatabaseTable', $config = array()) {
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -398,13 +407,14 @@ class QatDatabaseModelItem extends JModelAdmin {
 	}
 	
 	protected function LoadCategoryField($selected = 0) {
-		$multicat = JComponentHelper::getParams('com_qatdatabase')->get('pcategory_type', '0');
-		$PostInAllCats = JComponentHelper::getParams('com_qatdatabase')->get('post_in_all_cats', '0');
+		$CatsNumber = $this->Settings->get('cats_number', 1);
 		
-		if($multicat == '1') {
-			$multiple = ' multiple="multiple" name="catid[]" onchange="categoryChange(jQuery(this).attr(\'id\'), true);"';
+		if($CatsNumber > 1 || $CatsNumber == -1 && $CatsNumber !== 0) {
+			$multiple = 'multiple="multiple" max-cats="' . $CatsNumber . '" name="catid[]" onchange="categoryChange(jQuery(this).attr(\'id\'), true);" ';
+			$title = ' title="' . JText::_('COM_QATDATABASE_FIELD_CATEGORY_MAX_CATEGORIES') . ': ' . $CatsNumber . '" ';
 		} else {
-			$multiple = ' name="catid" onchange="categoryChange(jQuery(this).attr(\'id\'));"';
+			$multiple = 'name="catid" onchange="categoryChange(jQuery(this).attr(\'id\'));" ';
+			$title = '';
 		}
 		
 		$SelectedCats = explode(',', $selected);
@@ -416,42 +426,42 @@ class QatDatabaseModelItem extends JModelAdmin {
 		$db->setQuery($query);
 		$Categories = $db->loadObjectList();
 		
-		if($multicat == '1') {
+		if($CatsNumber !== 1 && $CatsNumber == -1) {
 			if(count($SelectedCats) == count($Categories)) {
 				$selected = '-1';
 			}
-		}
-		
-		foreach($SelectedCats as $selectedCat => $value) {
-			$isSelected[$value] = ' selected';
+		} else {
+			foreach($SelectedCats as $selectedCat => $value) {
+				$isSelected[$value] = ' selected';
+			}
 		}
 		
 		$return = '<div class="control-group qdbcategory">';
 		$return .= '<div class="control-label">';
-		$return .= '<label class="qatdatabase-label" for="qdbcategory">';
-		$return .= '<h4 class="qatdatabase-ilheading">' . JText::_('COM_QATDATABASE_FLD_SELECT_CATEGORY_LABEL') . ': </h4>';
+		$return .= '<label ' . $title . ' class="qatdatabase-label hasTooltip" for="qdbcategory">';
+		$return .= '<h4 class="qatdatabase-ilheading">' . JText::_('COM_QATDATABASE_FIELD_SELECT_CATEGORY_LABEL') . ': </h4>';
 		$return .= '<span class="qatdatabase-required-star">*</span>';
 		$return .= '</label>';
 		$return .= '</div>';
-		$return .= '<select' . $multiple . ' id="qdbcategory" required="required" class="required">';
+		$return .= '<select ' . $multiple . 'id="qdbcategory" required="required" class="required">';
 		
 		// TODO: Set up the server-side fields validation process.
-		if($multicat == '1') {
-			if($PostInAllCats == '1') {
-				$return .= '<option ' . (($selected == '-1') ? 'selected="selected" ' : '') . 'value="-1">' . JText::_('COM_QATDATABASE_FIELD_ALL_CATEGORIES') . '</option>';
-			}
+		if($CatsNumber == -1) {
+			$return .= '<option ' . (($selected == '-1') ? 'selected="selected" ' : '') . 'value="-1">' . JText::_('COM_QATDATABASE_FIELD_ALL_CATEGORIES') . '</option>';
 		} else {
-			$return .= '<option value="">' . JText::_('COM_QATDATABASE_FLD_SELECT_CATEGORY') . '</option>';
+			if($CatsNumber == 1 || $CatsNumber == 0) {
+				$return .= '<option value="">' . JText::_('COM_QATDATABASE_FIELD_SELECT_CATEGORY') . '</option>';
+			}
 		}
 		
 		foreach($Categories as $Category) {
 			if(isset($isSelected[$Category->id]) && $selected !== '-1') {
-				$Selected = ' selected="selected"';
+				$Selected = 'selected="selected" ';
 			} else {
 				$Selected = '';
 			}
 			
-			$return .= '<option' . $Selected . ' value="' . $Category->id . '">' . $Category->title . '</option>';
+			$return .= '<option ' . $Selected . 'value="' . $Category->id . '">' . $Category->title . '</option>';
 		}
 		
 		$return .= '</select>';
