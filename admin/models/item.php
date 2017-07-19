@@ -195,12 +195,18 @@ class QatDatabaseModelItem extends JModelAdmin {
 		return false;
 	}
 	
-	protected function RenderField($TypeId, $FieldTitle, $FieldName, $Placeholder, $Names = null, $Values = null, $Rows = null, $Cols = null, $Parameters = null, $MaxLength = null, $Required = '0') {
+	protected function RenderField($TypeId, $FieldTitle, $FieldName, $Placeholder, $Defaultvalue, $Names = null, $Values = null, $Rows = null, $Cols = null, $Parameters = null, $MaxLength = null, $Required = '0') {
 		if($this->getItem()->id == '0') {
-			$ItemFieldValue = null;
+			if($Defaultvalue == '') {
+				$ItemFieldValue = null;
+			} else {
+				$ItemFieldValue = $Defaultvalue;
+			}
 		} else {
 			if(isset($this->getItem()->itemdata->$FieldName)) {
 				$ItemFieldValue = $this->getItem()->itemdata->$FieldName;
+			} elseif($Defaultvalue !== '') {
+				$ItemFieldValue = $Defaultvalue;
 			}
 		}
 		
@@ -213,6 +219,11 @@ class QatDatabaseModelItem extends JModelAdmin {
 				if(isset($ItemFieldValue)) {
 					$isChecked = array();
 					
+					if(!is_array($ItemFieldValue)) {
+						$ItemFieldValue = explode(',', $ItemFieldValue);
+					}
+					
+					// Convert values to keys (default keys not needed).
 					foreach($ItemFieldValue as $key => $val) {
 						$isChecked[$val] = 'true';
 					}
@@ -238,7 +249,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 				break;
 			
 			case 2:
-				$field = '<input' . ((isset($ItemFieldValue) && $ItemFieldValue !== null && $ItemFieldValue == $FieldTitle) ? ' checked ' : ' ') . 'class="' . (($Required == '1') ? $this->required['class'] : '') . '" id="' . $FieldName . '" name="' . $FieldName . '" value="' . $FieldTitle . '" type="checkbox"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' />';
+				$field = '<input ' . ((isset($ItemFieldValue) && $ItemFieldValue !== null && $ItemFieldValue == $FieldName) ? 'checked ' : '') . 'class="' . (($Required == '1') ? $this->required['class'] : '') . '" id="' . $FieldName . '" name="' . $FieldName . '" value="' . $FieldName . '" type="checkbox"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' />';
 				$return = $field;
 				break;
 			
@@ -259,6 +270,10 @@ class QatDatabaseModelItem extends JModelAdmin {
 				if(isset($ItemFieldValue)) {
 					$isChecked = array();
 					
+					if(!is_array($ItemFieldValue)) {
+						$ItemFieldValue = explode(',', $ItemFieldValue);
+					}
+					
 					// Convert values to keys (default keys not needed).
 					foreach($ItemFieldValue as $key => $val) {
 						$isChecked[$val] = 'true';
@@ -273,7 +288,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 					} else {
 						$checked = false;
 					}
-					$field .= '<option' . ((isset($checked) && $checked !== null && $checked == true) ? ' selected ' : ' ') . 'id="' . $FieldName . $count . '" value="' . $value[$count] . '">' . $name . '</option>';
+					$field .= '<option ' . ((isset($checked) && $checked !== null && $checked == true) ? 'selected ' : '') . 'id="' . $FieldName . $count . '" value="' . $value[$count] . '">' . $name . '</option>';
 					$count++;
 				}
 				$field .= '</select>';
@@ -589,7 +604,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 			$return .= '<label class="qatdatabase-label' . $forClass . '"' . $forLabel . '><h4 class="qatdatabase-ilheading">' . $labellink . $field->title . $labellinkend . ': </h4>' . (($field->required == '1') ? '<span class="qatdatabase-required-star">' . $this->required['text'] . '</span> ' : '') . $FieldDesc . '</label>';
 			$return .= '</div>';
 			$return .= '<div class="controls qatdatabase-field' . $inline . '">';
-			$return .= $this->RenderField($field->type, $field->title, $field->name, $field->placeholder, $field->names, $field->values, $field->rows, $field->cols, $field->parameters, $field->max_length, $field->required);
+			$return .= $this->RenderField($field->type, $field->title, $field->name, $field->placeholder, $field->default_value, $field->names, $field->values, $field->rows, $field->cols, $field->parameters, $field->max_length, $field->required);
 			$return .= '</div>';
 			$return .= '</div>';
 		}

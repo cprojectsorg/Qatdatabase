@@ -101,6 +101,14 @@
 		/>
 		
 		<field
+			name="default_value"
+			type="textarea"
+			label="COM_QATDATABASE_FIELD_DEFAULT_VALUE"
+			description="COM_QATDATABASE_FIELD_DEFAULT_VALUE"
+			class="textarea"
+		/>
+		
+		<field
 			name="labellink"
 			type="url"
 			validate="url"
