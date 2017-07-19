@@ -261,7 +261,31 @@ class QatDatabaseModelField extends JModelAdmin {
 		return true;
 	}
 	
+	protected function FieldCheck($id, $name) {
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('name'))->from($db->quoteName('#__qatdatabase_fields'))->where('id <> "' . $id . '" AND name="' . $name . '"');
+		$db->setQuery($query);
+		$result = $db->loadResult();
+		
+		if(count($result) > 0) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public function save($data) {
+		// Check if the field name is already exist.
+		if($this->FieldCheck($data['id'], $data['name']) == false) {
+			$msg = JText::_('COM_QATDATABASE_FIELDS_NAME_EXIST');
+		}
+		
+		if(isset($msg)) {
+			JFactory::getApplication()->enqueueMessage($msg, 'error');
+			return false;
+		}
+		
 		if(!isset($data['created']) || (isset($data['created']) && ($data['created'] == '' || $data['created'] == '0000-00-00 00:00:00'))) {
 			$data['created'] = JFactory::getDate()->toSql();
 		}
