@@ -28,6 +28,7 @@ CREATE TABLE `#__qatdatabase_fields` (
 	`publish_down` datetime NOT NULL,
 	`catid` text NOT NULL,
 	`type` text NOT NULL,
+	`placeholder` varchar(255) NOT NULL,
 	`names` text NOT NULL,
 	`values` text NOT NULL,
 	`rows` int(11) NOT NULL,

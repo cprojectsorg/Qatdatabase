@@ -195,7 +195,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 		return false;
 	}
 	
-	protected function RenderField($TypeId, $FieldTitle, $FieldName, $Names = null, $Values = null, $Rows = null, $Cols = null, $Parameters = null, $MaxLength = null, $Required = '0') {
+	protected function RenderField($TypeId, $FieldTitle, $FieldName, $Placeholder, $Names = null, $Values = null, $Rows = null, $Cols = null, $Parameters = null, $MaxLength = null, $Required = '0') {
 		if($this->getItem()->id == '0') {
 			$ItemFieldValue = null;
 		} else {
@@ -299,17 +299,17 @@ class QatDatabaseModelItem extends JModelAdmin {
 				break;
 			
 			case 6:
-				$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="email" maxlength="' . $MaxLength . '" name="' . $FieldName . '" />';
+				$field = '<input ' . (($Placeholder !== '') ? 'placeholder="' . $Placeholder . '" ' : '') . 'value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="email" maxlength="' . $MaxLength . '" name="' . $FieldName . '" />';
 				$return = $field;
 				break;
 			
 			case 7:
-				$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="number" maxlength="' . $MaxLength . '" name="' . $FieldName . '" />';
+				$field = '<input ' . (($Placeholder !== '') ? 'placeholder="' . $Placeholder . '" ' : '') . 'value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="number" maxlength="' . $MaxLength . '" name="' . $FieldName . '" />';
 				$return = $field;
 				break;
 			
 			case 8:
-				$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="number" name="' . $FieldName . '" /> <span id="' . $FieldName . 'currency" class="' . $FieldName . ' currency">' . $Parameters . '</span>';
+				$field = '<input ' . (($Placeholder !== '') ? 'placeholder="' . $Placeholder . '" ' : '') . 'value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="number" name="' . $FieldName . '" /> <span id="' . $FieldName . 'currency" class="' . $FieldName . ' currency">' . $Parameters . '</span>';
 				$return = $field;
 				break;
 			
@@ -321,19 +321,19 @@ class QatDatabaseModelItem extends JModelAdmin {
 				}
 				
 				if($Parameters == '[textarea]') {
-					$field = '<textarea class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" rows="' . $Rows . '" cols="' . $Cols . '" name="' . $FieldName . '">' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '</textarea>';
+					$field = '<textarea ' . (($Placeholder !== '') ? 'placeholder="' . $Placeholder . '" ' : '') . 'class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" rows="' . $Rows . '" cols="' . $Cols . '" name="' . $FieldName . '">' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '</textarea>';
 				}
 				
 				$return = $field;
 				break;
 			
 			case 10:
-				$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="text" name="' . $FieldName . '" maxlength="' . $MaxLength . '" />';
+				$field = '<input ' . (($Placeholder !== '') ? 'placeholder="' . $Placeholder . '" ' : '') . 'value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="text" name="' . $FieldName . '" maxlength="' . $MaxLength . '" />';
 				$return = $field;
 				break;
 			
 			case 11:
-				$field = '<input value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="url" name="' . $FieldName . '" maxlength="' . $MaxLength . '" />';
+				$field = '<input ' . (($Placeholder !== '') ? 'placeholder="' . $Placeholder . '" ' : '') . 'value="' . ((isset($ItemFieldValue) && $ItemFieldValue !== null) ? $ItemFieldValue : '') . '" class="' . (($Required == '1') ? $this->required['class'] : '') . '"' . (($Required == '1') ? ' ' . $this->required['input'] : '') . ' id="' . $FieldName . '" type="url" name="' . $FieldName . '" maxlength="' . $MaxLength . '" />';
 				$return = $field;
 				break;
 			
@@ -589,7 +589,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 			$return .= '<label class="qatdatabase-label' . $forClass . '"' . $forLabel . '><h4 class="qatdatabase-ilheading">' . $labellink . $field->title . $labellinkend . ': </h4>' . (($field->required == '1') ? '<span class="qatdatabase-required-star">' . $this->required['text'] . '</span> ' : '') . $FieldDesc . '</label>';
 			$return .= '</div>';
 			$return .= '<div class="controls qatdatabase-field' . $inline . '">';
-			$return .= $this->RenderField($field->type, $field->title, $field->name, $field->names, $field->values, $field->rows, $field->cols, $field->parameters, $field->max_length, $field->required);
+			$return .= $this->RenderField($field->type, $field->title, $field->name, $field->placeholder, $field->names, $field->values, $field->rows, $field->cols, $field->parameters, $field->max_length, $field->required);
 			$return .= '</div>';
 			$return .= '</div>';
 		}
