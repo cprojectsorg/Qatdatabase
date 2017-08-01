@@ -53,9 +53,9 @@ class QatDatabaseViewField extends JViewLegacy {
 		$document->addScript(JURI::root() . DS . "administrator" . DS . "components" . DS . "com_qatdatabase" . DS . "views" . DS . "field" . DS . "submitbutton.js");
 		
 		JText::script('COM_QATDATABASE_TYPE');
-		
 		JText::script('COM_QATDATABASE_FIELD_NAME');
 		JText::script('COM_QATDATABASE_FIELD_ROWS');
+		JText::script('COM_QATDATABASE_GENERAL_KB');
 		JText::script('COM_QATDATABASE_FIELD_VALUE');
 		JText::script('COM_QATDATABASE_FIELD_EDITOR');
 		JText::script('COM_QATDATABASE_FIELD_REMOVE');
@@ -68,12 +68,14 @@ class QatDatabaseViewField extends JViewLegacy {
 		JText::script('COM_QATDATABASE_FIELD_MAX_LENGTH');
 		JText::script('COM_QATDATABASE_FIELD_CALENDAR_STYLE');
 		JText::script('COM_QATDATABASE_FIELD_CURRENCY_SYMBOL');
+		JText::script('COM_QATDATABASE_ERROR_FIELD_FIELD_ERROR');
+		JText::script('COM_QATDATABASE_FIELD_IMAGES_MAX_NUMBER');
+		JText::script('COM_QATDATABASE_FIELD_FILE_MAX_FILE_SIZE');
 		JText::script('COM_QATDATABASE_FIELD_CHECKBOX_AUTO_CHECK');
 		JText::script('COM_QATDATABASE_FIELD_CALENDAR_STYLE_JOOMLA');
 		JText::script('COM_QATDATABASE_FIELD_CALENDAR_STYLE_DEFAULT');
-		JText::script('COM_QATDATABASE_FIELD_FILE_MAX_FILE_SIZE');
 		JText::script('COM_QATDATABASE_FIELD_FILE_ALLOWED_EXTENSION');
-		
-		JText::script('COM_QATDATABASE_ERROR_FIELD_FIELD_ERROR');
+		JText::script('COM_QATDATABASE_GENERAL_COMMA_SEPARATED_LIST');
+		JText::script('COM_QATDATABASE_FIELD_FILE_ALLOWED_EXTENSIONS');
 	}
 }

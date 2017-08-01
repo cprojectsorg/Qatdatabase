@@ -114,6 +114,7 @@
 
 .qatdatabase-ilheading {
 	display: inline;
+	font-weight: bold;
 }
 
 .qatdatabase-required-star {
@@ -164,4 +165,40 @@ div.controls.qatdatabase-field.inline {
 
 input.invalid, textarea.invalid {
 	border: 1px solid #9D261D;
+}
+
+label.image_add {
+	border-radius: 0px;
+	padding: 8px;
+	background: #2384D3;
+	border: 1px solid #000000;
+	color: #FFFFFF;
+	display: inline-block;
+}
+
+input.image_add_input {
+	width: 0px;
+	height: 0px;
+	visibility: hidden;
+	display: none !important;
+	background: #6DAEFF;
+	border: 1px solid #000000;
+	color: #FFFFFF;
+}
+
+div.fld_images_list {
+	background: #F9F9F9;
+	border: 1px dotted #000000;
+	border-radius: 5px;
+	margin: 10px 0px;
+}
+
+div.fld_images_list>a>img.fld_image_preview {
+	width: 165px;
+	height: auto;
+	margin: 5px;
+}
+
+div.fld_images_list.nolist {
+	display: none;
 }

@@ -25,6 +25,11 @@
 		/>
 		
 		<field
+			name="parameters_2"
+			type="hidden"
+		/>
+		
+		<field
 			name="max_file_size"
 			type="hidden"
 			multiple="true"
@@ -148,6 +153,7 @@
 			<option value="11">URL (Link)</option>
 			<option value="12">Radio</option>
 			<option value="13">File</option>
+			<option value="14">Images uploader</option>
 		</field>
 		
 		<field

@@ -20,7 +20,7 @@ class QatDatabaseViewItems extends JViewLegacy {
 		$this->state = $this->get('State');
 		$this->canDo = JHelperContent::getActions('com_qatdatabase');
 		$this->filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'id', 'cmd');
-		$this->filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'asc', 'cmd');
+		$this->filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'desc', 'cmd');
 		$this->filterForm = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->addToolBar();

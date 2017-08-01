@@ -47,7 +47,7 @@ class QatDatabaseModelItems extends JModelList {
 		}
 		
 		$orderCol = $this->state->get('list.ordering', 'item.id');
-		$orderDirn = $this->state->get('list.direction', 'asc');
+		$orderDirn = $this->state->get('list.direction', 'desc');
 		$query->select('c.title AS category_title')->join('LEFT', '#__categories as c ON c.id = item.catid');
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 		return $query;

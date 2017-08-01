@@ -68,6 +68,9 @@ class QatDatabaseViewItem extends JViewLegacy {
 		$document->addScript(JURI::root() . DS . "administrator" . DS . "components" . DS . "com_qatdatabase" . DS . "views" . DS . "item" . DS . "submitbutton.js");
 		$document->addScript(JURI::root() . DS . "administrator" . DS . "components" . DS . "com_qatdatabase" . DS . "views" . DS . "item" . DS . "item.js");
 		
+		JText::script('COM_QATDATABASE_ITEM_ADD_IMAGES');
+		JText::script('COM_QATDATABASE_ITEM_IMAGE_SELECTED');
+		JText::script('COM_QATDATABASE_ITEM_IMAGES_SELECTED');
 		JText::script('COM_QATDATABASE_ERROR_ITEM_FIELD_ERROR');
 	}
 }

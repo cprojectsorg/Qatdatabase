@@ -29,5 +29,10 @@ class QatDatabaseViewEdit extends JViewLegacy {
 	protected function setDocument() {
 		$document = JFactory::getDocument();
 		$document->addScript(JURI::root() . DS . "components" . DS . "com_qatdatabase" . DS . "views" . DS . "edit" . DS . "edit.js");
+		
+		JText::script('COM_QATDATABASE_ITEM_ADD_IMAGES');
+		JText::script('COM_QATDATABASE_ITEM_IMAGE_SELECTED');
+		JText::script('COM_QATDATABASE_ITEM_IMAGES_SELECTED');
+		JText::script('COM_QATDATABASE_ERROR_ITEM_FIELD_ERROR');
 	}
 }

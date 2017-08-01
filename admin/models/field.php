@@ -195,12 +195,16 @@ class QatDatabaseModelField extends JModelAdmin {
 				break;
 			
 			case 13:
-				$return = '<div class="control-group"><label>' . JText::_('COM_QATDATABASE_FIELD_FILE_MAX_FILE_SIZE') . ': <input value="' . ((isset($data->max_file_size) && $data->max_file_size !== '0') ? $data->max_file_size : '') . '" type="number" name="jform[max_file_size]" /></label></div>';
+				$return = '<div class="control-group"><label>' . JText::_('COM_QATDATABASE_FIELD_FILE_MAX_FILE_SIZE') . ': <input value="' . ((isset($data->max_file_size) && $data->max_file_size !== '0') ? $data->max_file_size : '') . '" type="number" name="jform[max_file_size]" /> ' . JText::_('COM_QATDATABASE_GENERAL_KB') . '</label></div>';
 				$return .= '<div class="control-group"><label>' . JText::_('COM_QATDATABASE_FIELD_FILE_ALLOWED_EXTENSION') . ': <input value="' . ((isset($data->parameters)) ? $data->parameters : '') . '" type="text" name="jform[parameters]" /></label></div>';
 				return $return;
 				break;
 				
 			case 14:
+				$return = '<div class="control-group"><label>' . JText::_('COM_QATDATABASE_FIELD_FILE_MAX_FILE_SIZE') . ': <input value="' . ((isset($data->max_file_size) && $data->max_file_size !== '0') ? $data->max_file_size : '') . '" type="number" name="jform[max_file_size]" /> ' . JText::_('COM_QATDATABASE_GENERAL_KB') . '</label></div>';
+				$return .= '<div class="control-group"><label>' . JText::_('COM_QATDATABASE_FIELD_IMAGES_MAX_NUMBER') . ': <input value="' . ((isset($data->parameters_2)) ? $data->parameters_2 : '') . '" type="number" name="jform[parameters_2]" /></label></div>';
+				$return .= '<div class="control-group"><label>' . JText::_('COM_QATDATABASE_FIELD_FILE_ALLOWED_EXTENSIONS') . ': <input title="' . JText::_('COM_QATDATABASE_GENERAL_COMMA_SEPARATED_LIST') . '" class="hasTooltip" value="' . ((isset($data->parameters)) ? $data->parameters : '') . '" type="text" name="jform[parameters]" /></label></div>';
+				return $return;
 				break;
 		}
 	}

@@ -109,3 +109,23 @@ function Required(e, setrequired = true) {
 		jQuery("." + cls.replace(/ /g, '.') + " .controls .req").attr('required', 'required').addClass('required').removeClass('req').removeAttr('req');
 	}
 }
+
+function ImageInput(id, labelid, max) {
+	var FilesNumber = document.getElementById(id).files.length;
+	
+	if(FilesNumber > 1) {
+		var Selected = Joomla.JText._('COM_QATDDATABASE_ITEM_FIELD_IMAGES_SELECTED', 'Images selected');
+	} else {
+		var Selected = Joomla.JText._('COM_QATDDATABASE_ITEM_FIELD_IMAGE_SELECTED', 'Image selected');
+	}
+	
+	if(FilesNumber !== 0) {
+		if(FilesNumber >= max) {
+			document.getElementById(labelid).innerText=(max + ' / ' + max + ' ' + Selected);
+		} else {
+			document.getElementById(labelid).innerText=(FilesNumber + ' / ' + max + ' ' + Selected);
+		}
+	} else {
+		document.getElementById(labelid).innerText=(Joomla.JText._('COM_QATDATABASE_ITEM_ADD_IMAGES', 'Add images'));
+	}
+}

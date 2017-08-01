@@ -36,6 +36,7 @@ CREATE TABLE `#__qatdatabase_fields` (
 	`cols` int(11) NOT NULL,
 	`max_file_size` int(11) NOT NULL,
 	`parameters` text NOT NULL,
+	`parameters_2` text NOT NULL,
 	`max_length` int(11) NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
