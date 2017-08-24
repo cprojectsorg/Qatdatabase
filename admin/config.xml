@@ -43,13 +43,33 @@
 		</field>
 		
 		<field
+			name="auto_publish"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="COM_QATDATABASE_CONFIGURATION_GENERAL_AUTO_PUBLISH"
+			description="COM_QATDATABASE_CONFIGURATION_GENERAL_AUTO_PUBLISH_DESC"
+			default="0">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+		</field>
+		
+		<field
 			name="cats_number"
 			type="number"
 			label="COM_QATDATABASE_CONFIGURATION_GENERAL_CATEGORIES_NUMBER"
 			description="COM_QATDATABASE_CONFIGURATION_GENERAL_CATEGORIES_NUMBER_DESC"
 			default="1"
 		/>
+		
+		<field
+			name="items_per_user"
+			type="number"
+			label="COM_QATDATABASE_CONFIGURATION_GENERAL_MAX_ITEMS_PER_USER"
+			description="COM_QATDATABASE_CONFIGURATION_GENERAL_MAX_ITEMS_PER_USER_DESC"
+			default="-1"
+		/>
 	</fieldset>
+	
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
@@ -65,4 +85,3 @@
 			section="component"/>
 	</fieldset>
 </config>
-

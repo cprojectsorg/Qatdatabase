@@ -96,16 +96,11 @@ class QatDatabaseControllerItem extends JControllerForm {
 		
 		if($auth == true) {
 			if($model->save($data)) {
-				$app->enqueueMessage(JText::_('JLIB_APPLICATION_SAVE_SUCCESS'), 'message');
-				
 				if($this->task == 'save') {
 					$app->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=items', false));
 				} elseif($this->task == 'apply') {
 					$app->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=item&layout=edit&id=' . $model->postSaveHook(), false));
 				}
-			} else {
-				$app->enqueueMessage(JText::_('COM_QATDATABASE_ITEM_SAVE_ERROR'), 'error');
-				$app->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=item&layout=edit', false));
 			}
 		} else {
 			$app->enqueueMessage(JText::_('COM_QATDATABASE_AUTH_NOT_PERMITTED'), 'error');

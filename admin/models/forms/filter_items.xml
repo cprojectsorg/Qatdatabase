@@ -4,7 +4,6 @@
 		<field
 			name="search"
 			type="text"
-			label="COM_BANNERS_SEARCH_IN_TITLE"
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
 		/>
@@ -30,6 +29,21 @@
 		</field>
 	</fields>
 	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			onchange="this.form.submit();"
+			default="item.id DESC"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="item.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="item.id DESC">JGRID_HEADING_ID_DESC</option>
+			<option value="item.catid ASC">JCATEGORY_ASC</option>
+			<option value="item.catid DESC">JCATEGORY_DESC</option>
+			<option value="item.published ASC">JSTATUS_ASC</option>
+			<option value="item.published DESC">JSTATUS_DESC</option>
+		</field>
+		
 		<field
 			name="limit"
 			type="limitbox"

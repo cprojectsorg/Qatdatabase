@@ -12,14 +12,14 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 ?>
 <form class="form-validate" action="<?php echo JRoute::_('index.php?option=com_qatdatabase&id=' . (int) $this->item->id); ?>" method="post" enctype="multipart/form-data">
-<?php
-$Model = $this->getModel();
-echo $Model->LoadFields();
-echo JHtml::_('form.token');
-?>
-<input type="hidden" name="id" value="<?php echo (int) $this->item->id; ?>" />
-<input type="hidden" name="task" value="edit.apply" />
-<div class="btn-group">
-<button type="submit" class="btn btn-primary validate"><?php echo JText::_('JSAVE'); ?></button>
-</div>
+	<?php
+	$Model = $this->getModel();
+	echo $Model->LoadFields();
+	echo JHtml::_('form.token');
+	?>
+	<input type="hidden" name="id" value="<?php echo (int) $this->item->id; ?>" />
+	<input type="hidden" name="task" value="edit.apply" />
+	<div class="btn-group">
+		<button type="submit" class="btn btn-primary validate"><?php echo JText::_('JSAVE'); ?></button>
+	</div>
 </form>

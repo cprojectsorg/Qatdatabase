@@ -13,7 +13,7 @@ jimport('joomla.application.component.modellist');
 class QatDatabaseModelFields extends JModelList {
 	public function __construct($config = array()) {
 		if(empty($config['filter_fields'])) {
-			$config['filter_fields'] = array('id', 'title', 'name', 'created', 'published', 'publish_up', 'publish_down', 'catid', 'type');
+			$config['filter_fields'] = array('id', 'field.id', 'title', 'field.title', 'name', 'field.name', 'created', 'field.created', 'published', 'field.published', 'publish_up', 'field.publish_up', 'publish_down', 'field.publish_down', 'catid', 'field.catid', 'type', 'field.type', 'required', 'field.required', 'editable', 'field.editable');
 		}
 		parent::__construct($config);
 	}
@@ -94,6 +94,10 @@ class QatDatabaseModelFields extends JModelList {
 	public function GetFieldType($num) {
 		$array = array('1' => 'Check Box (Multiple)', '2' => 'Check Box (Single)', '3' => 'Date', '4' => 'Drop Down (Multiple Selection)', '5' => 'Drop Down (Single Selection)', '6' => 'Email address', '7' => 'Number text', '8' => 'Price field', '9' => 'Text area or editor', '10' => 'Text Field', '11' => 'URL (Link)', '12' => 'Radio', '13' => 'File', '14' => 'Images uploader');
 		return $array[$num];
+	}
+	
+	protected function populateState($ordering = null, $direction = null) {
+		parent::populateState('field.title', 'ASC');
 	}
 }
 ?>

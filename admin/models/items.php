@@ -13,20 +13,25 @@ jimport('joomla.application.component.modellist');
 class QatDatabaseModelItems extends JModelList {
 	public function __construct($config = array()) {
 		if(empty($config['filter_fields'])) {
-			$config['filter_fields'] = array('id', 'catid', 'created', 'publish_up', 'publish_down', 'published');
+			$config['filter_fields'] = array('id', 'item.id', 'catid', 'item.catid', 'created', 'item.created', 'publish_up', 'item.publish_up', 'publish_down', 'item.publish_down', 'published', 'item.published');
 		}
+		
 		parent::__construct($config);
+	}
+	
+	protected function populateState($ordering = null, $direction = null) {
+		parent::populateState('item.id', 'DESC');
 	}
 	
 	protected function getListQuery() {
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select($this->getState('list.select', 'item.id, item.alias, item.published, item.created, item.publish_up, item.publish_down, item.catid'))->from('#__qatdatabase_items AS item');
+		$query->select($this->getState('list.select', 'item.id, item.alias, item.published, item.created_by, item.created, item.publish_up, item.publish_down, item.catid'))->from('#__qatdatabase_items AS item');
 		$search = $this->getState('filter.search');
 		$published = $this->getState('filter.published');
 		$catid = $this->getState('filter.catid');
 		
-		if (is_numeric($catid)) {
+		if(is_numeric($catid)) {
 			$type = $this->getState('filter.catid.include', true) ? '= ' : '<> ';
 			$SubCatsInc = $this->getState('filter.subcategories', false);
 			$EqCat = 'catid ' . $type . (int) $catid;
@@ -46,10 +51,14 @@ class QatDatabaseModelItems extends JModelList {
 			$query->where('(item.published IN (0,1))');
 		}
 		
-		$orderCol = $this->state->get('list.ordering', 'item.id');
-		$orderDirn = $this->state->get('list.direction', 'desc');
 		$query->select('c.title AS category_title')->join('LEFT', '#__categories as c ON c.id = item.catid');
+		$query->select('user.name AS byuser')->join('LEFT', '#__users as user ON user.id = item.created_by');
+		
+		$orderCol = $this->state->get('list.ordering', 'item.id');
+		$orderDirn = $this->state->get('list.direction', 'DESC');
+		
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
+		
 		return $query;
 	}
 	

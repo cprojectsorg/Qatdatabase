@@ -96,11 +96,7 @@ class QatDatabaseControllerEdit extends QatDatabaseControllerItem {
 		
 		if($auth == true) {
 			if($model->save($data)) {
-				$app->enqueueMessage(JText::_('JLIB_APPLICATION_SAVE_SUCCESS'), 'message');
 				$app->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=items', false));
-			} else {
-				$app->enqueueMessage(JText::_('COM_QATDATABASE_ITEM_SAVE_ERROR'), 'error');
-				$app->Redirect(JRoute::_('index.php?option=com_qatdatabase', false));
 			}
 		} else {
 			$app->enqueueMessage(JText::_('COM_QATDATABASE_ITEM_SAVE_ERROR'), 'error');

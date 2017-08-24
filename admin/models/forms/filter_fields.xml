@@ -4,7 +4,6 @@
 		<field
 			name="search"
 			type="text"
-			label="COM_BANNERS_SEARCH_IN_TITLE"
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
 		/>
@@ -58,6 +57,30 @@
 	</fields>
 	
 	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			onchange="this.form.submit();"
+			default="field.title ASC"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="field.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="field.id DESC">JGRID_HEADING_ID_DESC</option>
+			<option value="field.catid ASC">JCATEGORY_ASC</option>
+			<option value="field.catid DESC">JCATEGORY_DESC</option>
+			<option value="field.published ASC">JSTATUS_ASC</option>
+			<option value="field.published DESC">JSTATUS_DESC</option>
+			<option value="field.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="field.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="field.name ASC">COM_QATDATABASE_FIELD_ORDER_NAME_ASC</option>
+			<option value="field.name DESC">COM_QATDATABASE_FIELD_ORDER_NAME_DESC</option>
+			<option value="field.type ASC">COM_QATDATABASE_FIELD_ORDER_TYPE_ASC</option>
+			<option value="field.type DESC">COM_QATDATABASE_FIELD_ORDER_TYPE_DESC</option>
+			<option value="field.required ASC">COM_QATDATABASE_FIELD_ORDER_REQUIRED_ASC</option>
+			<option value="field.required DESC">COM_QATDATABASE_FIELD_ORDER_REQUIRED_DESC</option>
+			<option value="field.editable ASC">COM_QATDATABASE_FIELD_ORDER_EDITABLE_ASC</option>
+			<option value="field.editable DESC">COM_QATDATABASE_FIELD_ORDER_EDITABLE_DESC</option>
+		</field>
 		<field
 			name="limit"
 			type="limitbox"

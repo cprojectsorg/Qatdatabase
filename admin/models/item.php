@@ -12,10 +12,19 @@ jimport('joomla.application.component.modeladmin');
 
 class QatDatabaseModelItem extends JModelAdmin {
 	protected $Settings;
+	protected $User;
+	protected $App;
 	
 	public function __construct() {
-		// Load component settings.
+		// Load settings.
 		$this->Settings = JComponentHelper::getParams('com_qatdatabase');
+		$this->User = JFactory::getUser();
+		$this->App = JFactory::getApplication();
+		
+		// Check if maximum items number is reached or not.
+		if(!$this->User->authorise('core.manage', 'com_qatdatabase') && (int) JRequest::getVar('id') == 0 && $this->User->get('id') !== 0 && count($this->getItems($this->User->get('id'))) >= $this->Settings->get('items_per_user', -1)) {
+			$this->App->enqueueMessage(JText::_('COM_QATDATABASE_ITEM_SAVE_MAXIMUM_NUMBER_REACHED'), 'warning');
+		}
 		
 		return parent::__construct();
 	}
@@ -37,6 +46,29 @@ class QatDatabaseModelItem extends JModelAdmin {
 		return $item;
 	}
 	
+	/*
+	 * Items loader.
+	 * 
+	 * @param   integer  $Uid    User id.
+	 * 
+	 * @return  stdClass.
+	 */
+	protected function getItems($Uid = 0) {
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('*')->from('#__qatdatabase_items');
+		
+		if($Uid > 0) {
+			$query->where('created_by = ' . $Uid);
+		}
+		
+		$query->where('published=1');
+		
+		$db->setQuery($query);
+		
+		return $db->loadObjectList();
+	}
+	
 	public function postSaveHook($model, $data) {
 		$item = $this->getItem();
 		return $item->get('id');
@@ -48,7 +80,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 	 * @param   string  $field    The field name.
 	 * @param   string  $request  'extension' to load the allowed extension.
 	 * 
-	 * @return  The requested column by 'request' parameter, boolean false if any of parameters is null.
+	 * @return  mixed   The requested column by 'request' parameter, boolean false if any of parameters is null.
 	 */
 	protected function getFilefield($field = null, $request = null) {
 		if($field == null) {
@@ -94,7 +126,7 @@ class QatDatabaseModelItem extends JModelAdmin {
 	 * @param   array   $data       Submitted data array.
 	 * @param   string  $fieldname  field name to check if is in the selected category/categories.
 	 * 
-	 * @return  boolean, true if all data is ok, false if the check failed, if field name not null: if field inside the selected category/categories returns true, if not returns false.
+	 * @return  mixed   boolean, true if all data is ok, false if the check failed, if field name not null: if field inside the selected category/categories returns true, if not returns false.
 	 */
 	protected function ValidateData($data, $fieldname = null) {
 		// First check token.
@@ -156,10 +188,30 @@ class QatDatabaseModelItem extends JModelAdmin {
 		}
 	}
 	
+	/*
+	 * Method to save the form data.
+	 * 
+	 * @param   array    $data  The form data.
+	 * 
+	 * @return  boolean  True on success.
+	 */
 	public function save($data) {
 		// Check data.
 		if($data == null || $data == '') {
 			return false;
+		}
+		
+		// Check if maximum items number is reached or not.
+		if(!$this->User->authorise('core.manage', 'com_qatdatabase') && $this->getItem()->id == 0 && $this->User->get('id') !== 0 && $this->Settings->get('items_per_user', -1) !== -1 && count($this->getItems($this->User->get('id'))) >= $this->Settings->get('items_per_user', -1)) {
+			$this->App->enqueueMessage(JText::_('COM_QATDATABASE_ITEM_SAVE_MAXIMUM_NUMBER_REACHED'), 'error');
+			$this->App->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=item&layout=edit', false));
+			return false;
+		}
+		
+		if($this->Settings->get('auto_publish', 0) == 1) {
+			$data['published'] = 1;
+		} else {
+			$data['published'] = 0;
 		}
 		
 		// The fields which is not used (Like token) or has a column in `qatdatabase_items` table and is not needed to be inside the itemdata column.
@@ -205,6 +257,8 @@ class QatDatabaseModelItem extends JModelAdmin {
 		
 		// Validate data, continue if true, break if false.
 		if($this->ValidateData($data) == false) {
+			$this->App->enqueueMessage(JText::_('COM_QATDATABASE_ITEM_SAVE_ERROR'), 'error');
+			$this->App->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=item&layout=edit', false));
 			return false;
 		}
 		
@@ -247,6 +301,8 @@ class QatDatabaseModelItem extends JModelAdmin {
 				// Check if the destination directory exist.
 				if(!JFolder::exists($DestenationDir)) {
 					if(!JFolder::create($DestenationDir)) {
+						$this->App->enqueueMessage(JText::_('COM_QATDATABASE_ITEM_SAVE_ERROR'), 'error');
+						$this->App->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=item&layout=edit', false));
 						return false;
 					}
 				}
@@ -305,13 +361,19 @@ class QatDatabaseModelItem extends JModelAdmin {
 						// Check if the extension matches the allowed extension and check size.
 						if(strtolower(JFile::getExt($Filename)) == $this->getFilefield($Field, 'extension') && $File['size'] <= $MaxFileSize) {
 							if(JFile::exists($Destenation)) {
+								$this->App->enqueueMessage(JText::_('COM_QATDATABASE_ITEM_SAVE_ERROR'), 'error');
+								$this->App->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=item&layout=edit', false));
 								return false;
 							} else {
 								if(!JFile::upload($Source, $Destenation)) {
+									$this->App->enqueueMessage(JText::_('COM_QATDATABASE_ITEM_SAVE_ERROR'), 'error');
+									$this->App->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=item&layout=edit', false));
 									return false;
 								}
 							}
 						} else {
+							$this->App->enqueueMessage(JText::_('COM_QATDATABASE_ITEM_SAVE_ERROR'), 'error');
+							$this->App->Redirect(JRoute::_('index.php?option=com_qatdatabase&view=item&layout=edit', false));
 							return false;
 						}
 					} elseif($UpDir == 'images') {
@@ -365,6 +427,13 @@ class QatDatabaseModelItem extends JModelAdmin {
 				$unassignedData[$Field] = $newFilename;
 			}
 		}
+		
+		// Send warning message after saving if the user reached the maximum number of items.
+		if(!$this->User->authorise('core.manage', 'com_qatdatabase') && $this->User->get('id') !== 0 && $this->Settings->get('items_per_user', -1) !== -1 && count($this->getItems($this->User->get('id'))) + 1 >= $this->Settings->get('items_per_user', -1)) {
+			$this->App->enqueueMessage(JText::_('COM_QATDATABASE_ITEM_SAVE_MAXIMUM_NUMBER_REACHED'), 'warning');
+		}
+		
+		$this->App->enqueueMessage(JText::_('JLIB_APPLICATION_SAVE_SUCCESS'), 'message');
 		
 		// Assign all unassigned data to the itemdata column.
 		$data['itemdata'] = json_encode($unassignedData);
