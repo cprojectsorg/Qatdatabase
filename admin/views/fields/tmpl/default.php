@@ -15,10 +15,6 @@ JHtml::_('behavior.multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
-
-if($listOrder == '') {
-	//$listOrder = 'field.title';
-}
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_qatdatabase&view=fields'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
